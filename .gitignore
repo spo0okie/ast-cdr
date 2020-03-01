@@ -32,5 +32,4 @@ tests/_support/_generated
 #vagrant folder
 /.vagrant
 
-#настройки БД
-config
+config/db.php
