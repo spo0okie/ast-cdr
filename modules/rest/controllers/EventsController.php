@@ -6,7 +6,7 @@
  * Time: 14:53
  */
 
-namespace app\modules\api\controllers;
+namespace app\modules\rest\controllers;
 
 use app\models\Events;
 

@@ -1,17 +1,17 @@
 <?php
 
-namespace app\modules\api;
+namespace app\modules\json;
 
 
 /**
  * Rest module definition class
  */
-class Rest extends \yii\base\Module
+class Json extends \yii\base\Module
 {
 	/**
 	 * @inheritdoc
 	 */
-	public $controllerNamespace = 'app\modules\api\controllers';
+	public $controllerNamespace = 'app\modules\json\controllers';
 
 	/**
 	 * @inheritdoc

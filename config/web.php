@@ -50,17 +50,20 @@ $config = [
 				[
 					'class' => 'yii\rest\UrlRule',
 					'controller' => [
-						'events'	=> 'api/events',
-						'calls'		=> 'api/domains',
+						'events'	=> 'rest/events',
+						'calls'		=> 'rest/calls',
 					],
 					'pluralize' => false,
-					'prefix' => 'api'
+					'prefix' => 'rest'
 				],
-            ],
+				'POST json/call'	=> 'json/call/create',
+				'POST json'			=> 'json/call/create',
+			],
         ],
     ],
 	'modules' => [
-		'api'       => ['class' => 'app\modules\api\Rest'],
+		'rest'		=> ['class' => 'app\modules\rest\Rest'],		//нативный REST API Yii2
+		'json'		=> ['class' => 'app\modules\json\Json'],	//API по стандарту IS74 Open VPBX v.1
 	],
 	'params' => $params,
 ];
