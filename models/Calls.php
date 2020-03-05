@@ -46,4 +46,22 @@ class Calls extends \yii\db\ActiveRecord
             'comment' => 'Comment',
         ];
     }
+
+	/**
+	 * Предоставляет ID по ключу (находит или создает новый вызов)
+	 * @param $key
+	 * @return integer|null
+	 */
+	static public function provideCall($key) {
+		$call=\app\models\Calls::findOne(['key'=>$key]);
+		//если нашли то и ОК
+		if (!is_null($call)) return $call->id;
+		//иначе создаем новый
+		$call=new \app\models\Calls();
+		//прикручиваем ключ
+		$call->key=$key;
+		if ($call->save()) return $call->getPrimaryKey();
+		return null;
+	}
+
 }
