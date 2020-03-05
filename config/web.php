@@ -56,6 +56,7 @@ $config = [
 					'pluralize' => false,
 					'prefix' => 'rest'
 				],
+				'POST json/events/push'	=> 'json/events/create',
 				'POST json/events'	=> 'json/events/create',
 				'POST json'			=> 'json/events/create',
 			],
