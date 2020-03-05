@@ -12,11 +12,14 @@ use Yii;
  * @property string|null $source
  * @property string|null $destination
  * @property string|null $trunk
+ * @property string|null $call_key
  * @property int|null $call_id
  * @property string|null $created_at
  */
 class Events extends \yii\db\ActiveRecord
 {
+
+	public $call_key;	//ключ вызова для поиска call_id
 
 	public static $event_types=[
 		'start.call'		=> 10, //поступление вызова на АТС
@@ -75,4 +78,13 @@ class Events extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
         ];
     }
+
+	public function beforeSave($insert)
+	{
+		if (parent::beforeSave($insert)) {
+			$this->call_id=\app\models\Calls::provideCall($this->call_key);
+			return true;
+		}
+		return false;
+	}
 }
