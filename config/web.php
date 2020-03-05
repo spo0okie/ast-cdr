@@ -56,13 +56,13 @@ $config = [
 					'pluralize' => false,
 					'prefix' => 'rest'
 				],
-				'POST json/call'	=> 'json/call/create',
-				'POST json'			=> 'json/call/create',
+				'POST json/events'	=> 'json/events/create',
+				'POST json'			=> 'json/events/create',
 			],
         ],
     ],
 	'modules' => [
-		'rest'		=> ['class' => 'app\modules\rest\Rest'],		//нативный REST API Yii2
+		'rest'		=> ['class' => 'app\modules\rest\Rest'],	//нативный REST API Yii2
 		'json'		=> ['class' => 'app\modules\json\Json'],	//API по стандарту IS74 Open VPBX v.1
 	],
 	'params' => $params,
