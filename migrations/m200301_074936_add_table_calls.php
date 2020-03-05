@@ -14,7 +14,7 @@ class m200301_074936_add_table_calls extends Migration
 	{
 		if (is_null($table = $this->db->getTableSchema('{{%calls}}'))) {
 			$this->createTable('{{%calls}}', [
-				'[[id]]'		=> $this->primaryKey()->comment('id'),
+				'[[id]]'		=> $this->primaryKey(),
 				'[[key]]'		=> $this->string(48)->append(' COLLATE utf8_unicode_ci'),
 				'[[org_id]]'	=> $this->integer(),
 				'[[comment]]'	=> $this->text()->Null()->append(' COLLATE utf8_unicode_ci'),
