@@ -34,9 +34,7 @@ class m200301_075705_add_table_events extends Migration
      */
     public function safeDown()
     {
-        echo "m200301_075705_add_table_events cannot be reverted.\n";
-
-        return false;
+		if (!is_null($table=$this->db->getTableSchema('{{%events}}'))) $this->dropTable('{{%events}}');
     }
 
     /*

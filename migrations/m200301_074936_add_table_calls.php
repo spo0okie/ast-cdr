@@ -30,7 +30,7 @@ class m200301_074936_add_table_calls extends Migration
 	 */
 	public function safeDown()
 	{
-		if (!is_null($table=$this->db->getTableSchema('{{%orgs}}'))) $this->dropTable('{{%orgs}}');
+		if (!is_null($table=$this->db->getTableSchema('{{%calls}}'))) $this->dropTable('{{%calls}}');
 	}
 
     /*
