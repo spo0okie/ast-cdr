@@ -8,7 +8,6 @@
 
 namespace app\modules\json\controllers;
 
-use app\models\Events;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 
@@ -57,7 +56,7 @@ class EventsController extends Controller
 	/**
 	 * создает ивент из переданной структуры
 	 * @param $data
-	 * return object
+	 * @return object
 	 */
 	public function createEvent($data) {
 		//*{
@@ -135,7 +134,7 @@ class EventsController extends Controller
 
 	public function actionTest() {
 		\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-		return 'OK';
+		return 'OK:';
 	}
 };
 
