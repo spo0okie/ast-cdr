@@ -133,7 +133,7 @@ class EventsController extends Controller
 	}
 
 	public function actionTest() {
-		\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		\Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
 		return 'OK: test OK';
 	}
 };
