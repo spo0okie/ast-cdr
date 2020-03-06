@@ -13,22 +13,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Calls', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
+            //['class' => 'yii\grid\SerialColumn'],
             'id',
-            'key',
+            [
+            	'attribute'	=>'key',
+				'format'	=>'raw',
+				'value'		=>function($data) {
+					return \yii\helpers\Html::a($data->key,['view','id'=>$data->id]);
+				}
+            ],
             'org_id',
-            'comment:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            //'comment:ntext',
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

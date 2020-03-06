@@ -11,6 +11,8 @@ use Yii;
  * @property string|null $key
  * @property int|null $org_id
  * @property string|null $comment
+ *
+ * @property \app\models\Events $events
  */
 class Calls extends \yii\db\ActiveRecord
 {
@@ -46,6 +48,17 @@ class Calls extends \yii\db\ActiveRecord
             'comment' => 'Comment',
         ];
     }
+
+	/**
+	 * @return array|\yii\db\ActiveRecord[]
+	 */
+	public function getEvents()
+	{
+		return \app\models\Events::find()
+			->where(['call_id'=>$this->id])
+			->orderBy('id')
+			->All();
+	}
 
 	/**
 	 * Предоставляет ID по ключу (находит или создает новый вызов)
