@@ -25,4 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+	<h2>События</h2>
+	<?php foreach ($model->events as $event) {
+		echo $this->render('/events/item',['model'=>$event]).'<br />';
+	}?>
 </div>
