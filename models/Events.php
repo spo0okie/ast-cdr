@@ -30,6 +30,22 @@ class Events extends \yii\db\ActiveRecord
 		'end.call'			=> 60, //конец всего вызова
 	];
 
+	public static function typeNames($type) {
+		switch ($type) {
+			case 10: return 'Поступление вызова';
+			case 20: return 'Ответ на вызов';
+			case 30: return 'Вызов внутреннего';
+			case 40: return 'Ответ внутреннего';
+			case 50: return 'Конец внутреннего';
+			case 60: return 'Конец вызова';
+			default: return 'Неизвестное событие';
+		}
+	}
+
+
+	function getName() {
+		return static::typeNames($this->type);
+	}
     /**
      * {@inheritdoc}
      */
@@ -70,7 +86,8 @@ class Events extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'type' => 'Type',
+			'type' => 'Type',
+			'name' => 'Событие',
             'source' => 'Source',
             'destination' => 'Destination',
             'trunk' => 'Trunk',

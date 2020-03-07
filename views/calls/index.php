@@ -8,6 +8,8 @@ use yii\grid\GridView;
 
 $this->title = 'Calls';
 $this->params['breadcrumbs'][] = $this->title;
+
+$renderer=$this;
 ?>
 <div class="calls-index">
 
@@ -21,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
             	'attribute'	=>'key',
 				'format'	=>'raw',
-				'value'		=>function($data) {
-					return \yii\helpers\Html::a($data->key,['view','id'=>$data->id]);
+				'value'		=>function($data) use ($renderer) {
+					return $renderer->render('item',['model'=>$data]);
 				}
             ],
             'org_id',
