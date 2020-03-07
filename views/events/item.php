@@ -12,10 +12,10 @@
 
 switch ($model->type) {
 	case 10:
-		$text=$model->source.' ---&gt; '.$model->destination;
+		$text=$model->source.' ---&gt; '.$model->trunk;
 		break;
 	case 20:
-		$text=$model->source.' &lt;-^-&gt; '.$model->destination;
+		$text=$model->source.' &lt;-^-&gt; '.$model->trunk;
 		break;
 	case 30:
 		$text=$model->source.' ---&gt; '.$model->trunk.' ---&gt; '.$model->destination;
@@ -24,10 +24,10 @@ switch ($model->type) {
 		$text=$model->source.' --&gt; '.$model->trunk.' &lt;-^-&gt; '.$model->destination;
 		break;
 	case 50:
-		$text=$model->source.' --&gt; '.$model->trunk.' --X--; '.$model->destination;
+		$text=$model->source.' --&gt; '.$model->trunk.' --X-- '.$model->destination;
 		break;
 	case 60:
-		$text=$model->source.' --X--; '.$model->destination;
+		$text=$model->source.' --X-- '.$model->destination;
 		break;
 }
 echo $model->name.': '.$text;
