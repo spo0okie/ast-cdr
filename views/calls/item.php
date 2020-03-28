@@ -8,5 +8,5 @@
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Calls */
-
-echo \yii\helpers\Html::a($model->key,['view','id'=>$model->id]);
+if (is_object($model))
+echo \yii\helpers\Html::a(strlen($model->key)?$model->key:$model->uuid,['view','id'=>$model->id]);

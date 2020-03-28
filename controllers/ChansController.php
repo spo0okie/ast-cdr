@@ -3,16 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Calls;
+use app\models\Chans;
+use app\models\ChansSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CallsController implements the CRUD actions for Calls model.
+ * ChansController implements the CRUD actions for Chans model.
  */
-class CallsController extends Controller
+class ChansController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,52 +31,49 @@ class CallsController extends Controller
     }
 
     /**
-     * Lists all Calls models.
+     * Lists all Chans models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Calls::find(),
-        ]);
+        $searchModel = new ChansSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Calls model.
+     * Displays a single Chans model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+
+		// add conditions that should always apply here
+
+
+		return $this->render('view', [
             'model' => $this->findModel($id),
-			'evtDataProvider' => new ActiveDataProvider([
-				'query' => \app\models\ChanEvents::find()
-					->joinWith('chan')
-					->where(['chans.call_id' => $id]),
+			'dataProvider' => new ActiveDataProvider([
+				'query' => \app\models\ChanEvents::find()->where(['channel_id' => $id]),
 				'pagination' => ['pageSize' => 100,],
 			]),
-			'chanDataProvider' => new ActiveDataProvider([
-				'query' => \app\models\Chans::find()
-					->where(['call_id' => $id]),
-				'pagination' => ['pageSize' => 100,],
-			]),
-		]);
+        ]);
     }
 
     /**
-     * Creates a new Calls model.
+     * Creates a new Chans model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Calls();
+        $model = new Chans();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -87,7 +85,7 @@ class CallsController extends Controller
     }
 
     /**
-     * Updates an existing Calls model.
+     * Updates an existing Chans model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -107,7 +105,7 @@ class CallsController extends Controller
     }
 
     /**
-     * Deletes an existing Calls model.
+     * Deletes an existing Chans model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -121,15 +119,15 @@ class CallsController extends Controller
     }
 
     /**
-     * Finds the Calls model based on its primary key value.
+     * Finds the Chans model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Calls the loaded model
+     * @return Chans the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Calls::findOne($id)) !== null) {
+        if (($model = Chans::findOne($id)) !== null) {
             return $model;
         }
 

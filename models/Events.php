@@ -85,17 +85,18 @@ class Events extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-			'type' => 'Type',
-			'name' => 'Событие',
-            'source' => 'Source',
+            'id'		=> 'ID',
+			'type'		=> 'Type',
+			'name'		=> 'Событие',
+            'source'	=> 'Source',
             'destination' => 'Destination',
-            'trunk' => 'Trunk',
-            'call_id' => 'Call ID',
-            'created_at' => 'Created At',
+            'trunk'		=> 'Trunk',
+            'call_id'	=> 'Call ID',
+            'created_at'=> 'Created At',
         ];
     }
 
+    /*
 	public function beforeSave($insert)
 	{
 		if (parent::beforeSave($insert)) {
@@ -104,4 +105,5 @@ class Events extends \yii\db\ActiveRecord
 		}
 		return false;
 	}
+    */
 }

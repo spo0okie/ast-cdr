@@ -38,6 +38,8 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
+			['label' => 'chanEvents', 'url' => ['/chan-events']],
+			['label' => 'chans', 'url' => ['/chans']],
             ['label' => 'events', 'url' => ['/events']],
             ['label' => 'calls', 'url' => ['/calls']],
             ['label' => 'orgs', 'url' => ['/orgs']],

@@ -47,7 +47,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-				[
+				/*[
 					'class' => 'yii\rest\UrlRule',
 					'controller' => [
 						'events'	=> 'rest/events',
@@ -55,10 +55,13 @@ $config = [
 					],
 					'pluralize' => false,
 					'prefix' => 'rest'
-				],
+				],*/
 				'POST json/events/push'	=> 'json/events/create',
-				'POST json/events'	=> 'json/events/create',
-				'POST json'			=> 'json/events/create',
+				'POST json/events'		=> 'json/events/create',
+				'POST json'				=> 'json/events/create',
+				'POST json/chans/push'	=> 'json/chan-events/create',
+				'POST json/chan-events/push'=>'json/chan-events/create',
+				'json/chans/test'		=> 'json/chan-events/test',
 			],
         ],
     ],

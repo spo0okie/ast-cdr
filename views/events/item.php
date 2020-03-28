@@ -30,4 +30,4 @@ switch ($model->type) {
 		$text=$model->source.' --X-- '.$model->destination;
 		break;
 }
-echo $model->name.': '.$text;
+echo Yii::$app->formatter->asDatetime($model->created_at).'::' . $model->name.': '.$text;

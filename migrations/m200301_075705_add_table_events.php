@@ -16,14 +16,17 @@ class m200301_075705_add_table_events extends Migration
 			$this->createTable('events', [
 				'[[id]]'			=> $this->primaryKey(),
 				'[[type]]'			=> $this->integer(),
-				'[[source]]'		=> $this->string(16)->append(' COLLATE utf8_unicode_ci'),
+				'[[source]]'		=> $this->string(16)->Null()->append(' COLLATE utf8_unicode_ci'),
 				'[[destination]]'	=> $this->string(16)->Null()->append(' COLLATE utf8_unicode_ci'),
 				'[[trunk]]'			=> $this->string(16)->Null()->append(' COLLATE utf8_unicode_ci'),
+				'[[uuid]]'			=> $this->string(16)->Null()->append(' COLLATE utf8_unicode_ci'),
 				'[[call_id]]'		=> $this->integer(),
+				'[[chan_event_id]]'	=> $this->integer()->Null(),
 				'[[created_at]]'	=> $this->timestamp()
 			], 'DEFAULT CHARSET=utf8');
 
 			$this->createIndex('{{%idx-events_type}}', 		'{{%events}}', '[[type]]');
+			$this->createIndex('{{%idx-events_uuid}}', 		'{{%events}}', '[[uuid]]');
 			$this->createIndex('{{%idx-events_call_id}}',		'{{%events}}', '[[call_id]]');
 			$this->createIndex('{{%idx-events_created_at}}',	'{{%events}}', '[[created_at]]');
 		}

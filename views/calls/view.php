@@ -25,8 +25,22 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-	<h2>События</h2>
-	<?php foreach ($model->events as $event) {
-		echo $this->render('/events/item',['model'=>$event]).'<br />';
-	}?>
+	<?= \yii\bootstrap\Tabs::widget([
+		'items'=>[
+			[
+				'label'=>'Каналы',
+				'active'=>true,
+				'content' => $this->render('/chans/table',[
+					'columns'=>['created_at','updated_at','name','state','smartSrc','smartDst'],
+					'dataProvider'=>$chanDataProvider,
+				]),
+			],
+			[
+				'label'=>'Канальные события',
+				'content' => $this->render('/chan-events/table',[
+					'dataProvider'=>$evtDataProvider,
+				])
+			],
+		]
+	]) ?>
 </div>
