@@ -15,6 +15,7 @@ use Yii;
  * @property string|null $data
  * @property int|null $used
  * @property string|null $created_at
+ * @property \app\models\Chans $chan
  */
 class ChanEvents extends \yii\db\ActiveRecord
 {
@@ -224,29 +225,35 @@ class ChanEvents extends \yii\db\ActiveRecord
 	/**
 	 * {@inheritdoc}
 	 */
-	/*public function beforeSave($insert)
+	public function beforeSave($insert)
 	{
 		if (parent::beforeSave($insert)) {
 			if ($insert) {
-				$this->uid=$this->getPar('uid');
-				$this->uuid=$this->getPar('Uniqueid');
-				$this->channel=$this->getPar('Channel');
 				$this->channel_id=\app\models\Chans::provideId($this);
 			}
 			return true;
 		}
 		return false;
-	}*/
+	}
 
 	public function beforeValidate() {
 
 		if (parent::beforeValidate()) {
-			$this->uid=$this->getPar('uid');
-			$this->uuid=$this->getPar('Uniqueid');
-			$this->channel=$this->getPar('Channel');
-			$this->channel_id=\app\models\Chans::provideId($this);
+			if (empty($this->uid))		$this->uid=$this->getPar('uid');
+			if (empty($this->uuid))		$this->uuid=$this->getPar('Uniqueid');
+			if (empty($this->channel))	$this->channel=$this->getPar('Channel');
 			return true;
 		}
 		return false;
+	}
+
+	public function afterSave($insert, $changedAttributes)
+	{
+		$used=$this->used;
+		parent::afterSave($insert, $changedAttributes);
+		$this->chan->upd($this);
+		if (!$used && $this->used) $this->save(false);
+		if ($this->chan->updated) $this->chan->save(false);
+
 	}
 }

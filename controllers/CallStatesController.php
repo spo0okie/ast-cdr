@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\ChanEvents;
-use app\models\ChanEventsSearch;
+use app\models\callStates;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ChanEventsController implements the CRUD actions for ChanEvents model.
+ * CallStatesController implements the CRUD actions for callStates model.
  */
-class ChanEventsController extends Controller
+class CallStatesController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,20 +30,22 @@ class ChanEventsController extends Controller
     }
 
     /**
-     * Lists all ChanEvents models.
+     * Lists all callStates models.
      * @return mixed
      */
     public function actionIndex()
     {
+        $dataProvider = new ActiveDataProvider([
+            'query' => callStates::find(),
+        ]);
 
         return $this->render('index', [
-            'searchModel' => ($searchModel = new ChanEventsSearch()),
-            'dataProvider' => $searchModel->search(Yii::$app->request->queryParams),
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single ChanEvents model.
+     * Displays a single callStates model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -56,13 +58,13 @@ class ChanEventsController extends Controller
     }
 
     /**
-     * Creates a new ChanEvents model.
+     * Creates a new callStates model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ChanEvents();
+        $model = new callStates();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -74,7 +76,7 @@ class ChanEventsController extends Controller
     }
 
     /**
-     * Updates an existing ChanEvents model.
+     * Updates an existing callStates model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +96,7 @@ class ChanEventsController extends Controller
     }
 
     /**
-     * Deletes an existing ChanEvents model.
+     * Deletes an existing callStates model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -108,15 +110,15 @@ class ChanEventsController extends Controller
     }
 
     /**
-     * Finds the ChanEvents model based on its primary key value.
+     * Finds the callStates model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ChanEvents the loaded model
+     * @return callStates the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ChanEvents::findOne($id)) !== null) {
+        if (($model = callStates::findOne($id)) !== null) {
             return $model;
         }
 

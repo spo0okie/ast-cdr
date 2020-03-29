@@ -18,5 +18,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('table', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel,]); ?>
 
-
 </div>

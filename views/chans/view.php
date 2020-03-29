@@ -11,6 +11,7 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Chans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+$renderer=$this;
 ?>
 <div class="chans-view">
 
@@ -22,7 +23,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'uuid',
             'name',
-            //'type',
+            [
+            	'attribute'=>'call',
+				'format'=>'raw',
+				'value'=>function($data) use ($renderer) {
+					return $renderer->render('/calls/item',['model'=>$data->call]);
+				}
+			],
+
             'state',
             'src',
             'dst',

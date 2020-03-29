@@ -41,7 +41,8 @@ AppAsset::register($this);
 			['label' => 'chanEvents', 'url' => ['/chan-events']],
 			['label' => 'chans', 'url' => ['/chans']],
             ['label' => 'events', 'url' => ['/events']],
-            ['label' => 'calls', 'url' => ['/calls']],
+			['label' => 'calls', 'url' => ['/calls']],
+			['label' => 'states', 'url' => ['/call-states']],
             ['label' => 'orgs', 'url' => ['/orgs']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]

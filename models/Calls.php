@@ -36,8 +36,9 @@ class Calls extends \yii\db\ActiveRecord
 			[['org_id'], 'integer'],
 			[['comment'], 'string'],
 			[['created_at', 'updated_at'], 'safe'],
-			[['key'], 'string', 'max' => 48],
-			[['uuid'], 'string', 'max' => 16],         ];
+			['key', 'string', 'max' => 48],
+			['key', 'unique'],
+			[['uuid'], 'string', 'max' => 16],];
     }
 
     /**
@@ -66,7 +67,6 @@ class Calls extends \yii\db\ActiveRecord
 
 	/**
 	 * Предоставляет ID по ключу или UUID (находит или создает новый вызов)
-	 * @param string $uuid
 	 * @param string $key
 	 * @return integer|null
 	 */
@@ -86,4 +86,7 @@ class Calls extends \yii\db\ActiveRecord
 		return null;
 	}
 
+	public function setState($num,$state,$event_id) {
+		\app\models\CallStates::setState($this->id,$event_id,$num,$state);
+	}
 }

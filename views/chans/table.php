@@ -29,7 +29,10 @@ foreach ($columns as $column) {
 				'attribute' => 'name',
 				'format'=>'raw',
 				'value' => function ($data) use($renderer) {return $renderer->render('/chans/item',['model'=>$data]);},
-				'contentOptions'=>['class'=>$column.'_col'],
+				'contentOptions'=>function ($data) use ($column) {return[
+					'class'=>$column.'_col',
+					'id'=>'chan'.$data->id,
+				];},
 			];
 			break;
 

@@ -65,6 +65,11 @@ class CallsController extends Controller
 					->where(['call_id' => $id]),
 				'pagination' => ['pageSize' => 100,],
 			]),
+			'statesDataProvider' => new ActiveDataProvider([
+				'query' => \app\models\CallStates::find()
+					->where(['call_id' => $id]),
+				'pagination' => ['pageSize' => 100,],
+			]),
 		]);
     }
 

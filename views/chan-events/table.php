@@ -46,7 +46,10 @@ foreach ($columns as $column) {
 						implode('<br />',$output).
 						'</span>';
 				},
-				'contentOptions'=>['class'=>$column.'_col']
+				'contentOptions'=>function ($data) use ($column) {return[
+					'class'=>$column.'_col',
+					'id'=>'evt'.$data->id,
+				];},
 			];
 			break;
 

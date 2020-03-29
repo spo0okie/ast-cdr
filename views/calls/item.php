@@ -9,4 +9,4 @@
 /* @var $this yii\web\View */
 /* @var $model app\models\Calls */
 if (is_object($model))
-echo \yii\helpers\Html::a(strlen($model->key)?$model->key:$model->uuid,['view','id'=>$model->id]);
+echo \yii\helpers\Html::a(strlen($model->key)?$model->key:$model->uuid,['/calls/view','id'=>$model->id]);

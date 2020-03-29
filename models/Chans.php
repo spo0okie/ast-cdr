@@ -35,7 +35,7 @@ class Chans extends \yii\db\ActiveRecord
 {
 
 	private $parsed_vars=null;
-	private $updated=false;
+	public $updated=false;
 
     /**
      * {@inheritdoc}
@@ -116,6 +116,14 @@ class Chans extends \yii\db\ActiveRecord
 	 */
 	public function getSmartDst() {
 		return $this->isReversed? $this->src: $this->dst;
+	}
+
+	/**
+	 * Вернуть фактическое состояние
+	 * @return null|string
+	 */
+	public function getSmartState() {
+		return ($this->state=='Ringing')?'Ring':$this->state;
 	}
 
 	/**
@@ -274,7 +282,11 @@ class Chans extends \yii\db\ActiveRecord
 			!is_null($this->state)&&
 			($oldState!==$this->state)
 		) {
-			//$this->generateCallEvent();
+			$this->call->setState(
+				$this->smartDst,
+				$this->smartState,
+				$evt->id
+			);
 			return true;
 		};
 	}
@@ -411,8 +423,8 @@ class Chans extends \yii\db\ActiveRecord
 		]);
 		//если нашли то и ОК
 		if (!is_null($chan)) {
-			$chan->upd($evt);
-			if ($chan->updated) $chan->save(false);
+			//$chan->upd($evt);
+			//if ($chan->updated) $chan->save(false);
 			return $chan->id;
 		}
 		//иначе создаем новый
@@ -420,7 +432,7 @@ class Chans extends \yii\db\ActiveRecord
 		//прикручиваем ключ
 		$chan->name=$evt->channel;
 		$chan->uuid=$evt->uuid;
-		$chan->upd($evt);
+		//$chan->upd($evt);
 		if ($chan->save(false)) return $chan->getPrimaryKey();
 		return null;
 	}

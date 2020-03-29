@@ -29,10 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
 		'items'=>[
 			[
 				'label'=>'Каналы',
-				'active'=>true,
+				//'active'=>true,
 				'content' => $this->render('/chans/table',[
 					'columns'=>['created_at','updated_at','name','state','smartSrc','smartDst'],
 					'dataProvider'=>$chanDataProvider,
+				]),
+			],
+			[
+				'label'=>'Статусы',
+				'active'=>true,
+				'content' => $this->render('/call-states/table',[
+					//'columns'=>['created_at','updated_at','name','state'],
+					'dataProvider'=>$statesDataProvider,
 				]),
 			],
 			[

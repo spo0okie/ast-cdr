@@ -16,11 +16,12 @@ class m200328_144222_create_table_call_states extends Migration
 			$this->createTable('call_states', [
 				'[[id]]'			=> $this->primaryKey(),
 				'[[call_id]]'		=> $this->integer(),
+				'[[event_id]]'		=> $this->integer(),
 				//'[[src]]'			=> $this->string(64)->append(' COLLATE utf8_unicode_ci'),
 				'[[name]]'			=> $this->string(64)->append(' COLLATE utf8_unicode_ci'),
 				'[[state]]'			=> $this->string(64)->append(' COLLATE utf8_unicode_ci'),
 				'[[created_at]]'	=> $this->timestamp(),
-				'[[updated_at]]'	=> $this->timestamp()
+				//'[[updated_at]]'	=> $this->timestamp()
 			], 'DEFAULT CHARSET=utf8');
 
 			$this->createIndex('{{%idx-call_states_call_id}}',	'{{%call_states}}', '[[call_id]]');
