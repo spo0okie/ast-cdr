@@ -17,7 +17,7 @@ class m200301_074936_add_table_calls extends Migration
 				'[[id]]'		=> $this->primaryKey(),
 				'[[key]]'		=> $this->string(48)->append(' COLLATE utf8_unicode_ci'),
 				'[[org_id]]'	=> $this->integer(),
-				'[[uuid]]'		=> $this->string(16)->Null()->append(' COLLATE utf8_unicode_ci'),
+				'[[uuid]]'		=> $this->string(64)->Null()->append(' COLLATE utf8_unicode_ci'),
 				'[[comment]]'	=> $this->text()->Null()->append(' COLLATE utf8_unicode_ci'),
 				'[[created_at]]'=> $this->timestamp(),
 				'[[updated_at]]'=> $this->timestamp()

@@ -10,6 +10,8 @@ use Yii;
  * @property int $id id
  * @property string|null $uuid
  * @property string|null $key
+ * @property string|null $source
+ * @property string|null $trunk
  * @property int|null $org_id
  * @property string|null $comment
  * @property string|null $created_at
@@ -65,6 +67,23 @@ class Calls extends \yii\db\ActiveRecord
 			->All();
 	}
 
+	/**
+	 * Источник вызова
+	 * @return string
+	 */
+	public function getSource()
+	{
+		return explode('-',$this->key)[2];
+	}
+
+	/**
+	 * CO вызова
+	 * @return string
+	 */
+	public function getTrunk()
+	{
+		return explode('-',$this->key)[4];
+	}
 	/**
 	 * Предоставляет ID по ключу или UUID (находит или создает новый вызов)
 	 * @param string $key

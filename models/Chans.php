@@ -107,7 +107,11 @@ class Chans extends \yii\db\ActiveRecord
 	 * @return null|string
 	 */
 	public function getSmartSrc() {
-		return $this->isReversed? $this->dst: $this->src;
+		$src=$this->isReversed? $this->dst: $this->src;
+		if (strpos($src,'_')) {
+			$src=substr($src,strpos($src,'_')+1);
+		}
+		return $src;
 	}
 
 	/**
@@ -115,7 +119,19 @@ class Chans extends \yii\db\ActiveRecord
 	 * @return null|string
 	 */
 	public function getSmartDst() {
-		return $this->isReversed? $this->src: $this->dst;
+		$dst=$this->isReversed? $this->src: $this->dst;
+		if (strpos($dst,'_')) {
+			$dst=substr($dst,strpos($dst,'_')+1);
+		}
+		//обнаруживаем вызовы через local/500 XX YYY
+		if (strlen($dst)>='8' && strlen($dst)<='10' && substr($dst,0,3)=='500') {
+			$dst=substr($dst,5);
+		}
+		//обнаруживаем вызовы через local/05 XX YY ZZZ
+		if (strlen($dst)>='9' && strlen($dst)<='11' && substr($dst,0,1)=='05') {
+			$dst=substr($dst,6);
+		}
+		return $dst;
 	}
 
 	/**
@@ -280,7 +296,8 @@ class Chans extends \yii\db\ActiveRecord
 			!is_null($this->src)&&
 			!is_null($this->dst)&&
 			!is_null($this->state)&&
-			($oldState!==$this->state)
+			($oldState!==$this->state)&&
+			is_object($this->call)
 		) {
 			$this->call->setState(
 				$this->smartDst,
@@ -386,6 +403,7 @@ class Chans extends \yii\db\ActiveRecord
 	private function needReverse()
 	{
 		if ($this->state==='Ringing') $this->wasRinging=true;
+		if ($this->dst===$this->call->source) $this->reversed=true;
 		return ($this->wasRinging===true) xor ($this->reversed===true);
 	}
 

@@ -37,6 +37,7 @@ class CallsController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Calls::find(),
+			'pagination' => ['pageSize' => 100,],
         ]);
 
         return $this->render('index', [

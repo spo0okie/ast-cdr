@@ -15,7 +15,12 @@ $renderer=$this;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-	<?= $this->render('table', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel,]); ?>
+	<?= $this->render('table', [
+			'dataProvider' => $dataProvider,
+			'searchModel' => $searchModel,
+			'columns'=>['created_at','uuid','call_id','name','state','src','dst','updated_at'],
+		]);
+	?>
 
 
 </div>
