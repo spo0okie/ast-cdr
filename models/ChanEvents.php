@@ -75,7 +75,6 @@ class ChanEvents extends \yii\db\ActiveRecord
             [['created_at'], 'safe'],
             [['uuid'], 'string', 'max' => 16],
             [['channel'], 'string', 'max' => 128],
-			[['uid', 'channel'], 'unique', 'targetAttribute' => ['uid', 'channel']],
 		];
     }
 
@@ -239,7 +238,7 @@ class ChanEvents extends \yii\db\ActiveRecord
 	public function beforeValidate() {
 
 		if (parent::beforeValidate()) {
-			if (empty($this->uid))		$this->uid=$this->getPar('uid');
+			//if (empty($this->uid))		$this->uid=$this->getPar('uid');
 			if (empty($this->uuid))		$this->uuid=$this->getPar('Uniqueid');
 			if (empty($this->channel))	$this->channel=$this->getPar('Channel');
 			return true;
