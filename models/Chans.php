@@ -297,7 +297,8 @@ class Chans extends \yii\db\ActiveRecord
 			!is_null($this->dst)&&
 			!is_null($this->state)&&
 			($oldState!==$this->state)&&
-			is_object($this->call)
+			is_object($this->call)&&
+			($this->getTech()=='SIP')
 		) {
 			$this->call->setState(
 				$this->smartDst,
