@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\callStates;
+use app\models\CallStates;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -36,7 +36,7 @@ class CallStatesController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => callStates::find(),
+            'query' => CallStates::find(),
         ]);
 
         return $this->render('index', [
@@ -51,7 +51,7 @@ class CallStatesController extends Controller
 	public function actionShiftReport()
 	{
 		$date='2020-05-%';
-		$queryDay=CallStates::find()
+		$queryDay=\app\models\CallStates::find()
 			->joinWith('event')
 			->select([
 				'name',
