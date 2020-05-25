@@ -51,7 +51,7 @@ class CallStatesController extends Controller
 	public function actionShiftReport()
 	{
 		$date='2020-05-%';
-		$queryDay=callStates::find()
+		$queryDay=CallStates::find()
 			->joinWith('event')
 			->select([
 				'name',
