@@ -71,11 +71,11 @@ class CallStates extends \yii\db\ActiveRecord
     }
 
 	/**
-	 * @return \app\models\ChanEvents|\yii\db\ActiveRecord
+	 * @return \yii\db\ActiveQuery
 	 */
 	public function getEvent()
 	{
-		return \app\models\ChanEvents::findOne($this->event_id);
+		return $this->hasOne(ChanEvents::class, ['id'=>'event_id']);
 	}
 
 	/**

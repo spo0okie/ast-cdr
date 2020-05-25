@@ -44,7 +44,61 @@ class CallStatesController extends Controller
         ]);
     }
 
-    /**
+	/**
+	 * Lists all callStates models.
+	 * @return mixed
+	 */
+	public function actionShiftReport()
+	{
+		$date='2020-05-%';
+		$queryDay=callStates::find()
+			->joinWith('event')
+			->select([
+				'name',
+				'call_states.created_at',
+				'DATE_FORMAT(call_states.created_at,"%Y-%m-%d") as date',
+				//'DATE_FORMAT(call_states.created_at,"%d") as day',
+				'DATE_FORMAT(call_states.created_at,"%H") as hour',
+				'SUM(1) as count'
+			])
+			->where(['state'=>'Up'])
+			->andWhere(['like','call_states.created_at',$date,false])
+			->andWhere(['like','chan_events.channel','SIP/ods%',false])
+			->andWhere(['like','call_states.name','10_',false])
+			->groupBy(['name','date'])
+			->orderBy([
+				'date'=>SORT_ASC,
+				'name'=>SORT_ASC,
+			]);
+
+		$queryNight=clone $queryDay;
+		$dataProviderDay = new \yii\data\SqlDataProvider([
+			'sql' => $queryDay
+				->andWhere(['>=','DATE_FORMAT(call_states.created_at,"%H")',8])
+				->andWhere(['<','DATE_FORMAT(call_states.created_at,"%H")',20])
+				->createCommand()
+				->getRawSql(),
+			'pagination' => ['pageSize' => 1000,],
+		]);
+		$dataProviderNight = new \yii\data\SqlDataProvider([
+			'sql' => $queryNight
+				->andWhere([
+					'or',
+					['>=','DATE_FORMAT(call_states.created_at,"%H")',20],
+					['<','DATE_FORMAT(call_states.created_at,"%H")',8]
+				])
+				->createCommand()
+				->getRawSql(),
+			'pagination' => ['pageSize' => 1000,],
+		]);
+
+		return $this->render('shift-report', [
+			'dataProviderDay' => $dataProviderDay,
+			'dataProviderNight' => $dataProviderNight,
+		]);
+	}
+
+	/**
      * Displays a single callStates model.
      * @param integer $id
      * @return mixed
