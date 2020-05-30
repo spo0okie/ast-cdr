@@ -15,6 +15,7 @@ use Yii;
  * @property string|null $created_at
  * @property string|null $updated_at
  * @property \app\models\ChanEvents $event
+ * @property \app\models\Calls $call
  */
 class CallStates extends \yii\db\ActiveRecord
 {
@@ -79,6 +80,14 @@ class CallStates extends \yii\db\ActiveRecord
 	}
 
 	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getCall()
+	{
+		return $this->hasOne(Calls::class, ['id'=>'call_id']);
+	}
+
+	/**
 	 * Предоставляет ID по id звонка и внутреннему номеру (находит или создает новый статус)
 	 * @param integer $call_id
 	 * @param string $name
@@ -108,7 +117,96 @@ class CallStates extends \yii\db\ActiveRecord
 		$callState->event_id=$event_id;
 
 		//if (!empty($uuid)) $call->uuid=$uuid;
-		if ($callState->save()) return $callState->getPrimaryKey();
+		if ($callState->save()) {
+			static::sendData($callState);
+			return $callState->getPrimaryKey();
+		}
+
 		return null;
 	}
+
+	/**
+	 * @param \app\models\CallStates $state
+	 * @return bool
+	 */
+	public static function sendData($state) {
+		if (empty(Yii::$app->params['remoteAPI'])) return false;
+
+		//$datastr=$data['src'].' '.$data['state'].' '.$data['dst'].' rec: '.$data['monitor'];
+
+
+		//сюда складываем параметры для отправки в АПИ
+		$uuid=$state->call->uuid;
+		$tokens=explode('-',$uuid);
+		$src=$tokens[3];
+		$params=[
+			'src_phone'=>$src,      //заполняем исходящий номер
+			'call_id'=>$uuid,    //запоминаем имя файла как идентификатор вызова
+		];
+
+		//разбираем имя файла на токены
+		$mon_tokens=explode('-',$uuid);
+
+		//игнорируем ошбки в имени файла
+		if (count($mon_tokens)<2) {
+			//msg($this->p.'Channel update ignored (Call record file incorrect):' . $datastr ,3);
+			return false;
+		}
+
+		//заполняем городской номер
+		$params['dst_phone']=$mon_tokens[count($mon_tokens)-1];
+
+		//игнорируем исходящие вызовы
+		if ($mon_tokens[count($mon_tokens)-2] !== 'IN') {
+			//msg($this->p.'Channel update ignored (Outgoing call):' . $datastr ,3);
+			return false;
+		};
+
+		//игнорируем вызовы с внутреннего
+		if (strlen($src)<5) {
+			//msg($this->p.'Channel update ignored (Too short CallerID):' . $datastr ,3);
+			return false;
+		}
+
+		//если вызываемый номер длинный - то звонок на городской
+		if (strlen($state->name)>4) {
+			if ($state->state=='Ring')
+				$params['event_name']='start.call'; //начало вызова
+			if ($state->state=='Up')
+				$params['event_name']='answer.call'; //гипотетическое событие ответа на городской номер до ответа живого человека
+			if ($state->state=='Hangup')
+				$params['event_name']='end.call';   //конец звонка
+		} else {
+			$params['real_local_number']=$state->name;
+			if ($state->state=='Ring')
+				$params['event_name']='local.in.call';
+			if ($state->state=='Up')
+				$params['event_name']='start.talk';
+			if ($state->state=='Hangup')
+				$params['event_name']='end.call';   //конец звонка
+		}
+
+		$event=[
+			'type'=>'call_event',
+
+			'params'=>$params
+		];
+
+		$data=json_encode($event,JSON_FORCE_OBJECT);
+
+		//msg($this->p.'Sending data:' . $data);
+
+		$options = [
+			'http' => [
+				'header'  => "Content-type: application/json\r\n",
+				'method'  => 'POST',
+				'content' => $data,
+			]
+		];
+
+		$context  = stream_context_create($options);
+		$result = file_get_contents(Yii::$app->params['remoteAPI'].'/push', false, $context);
+		//msg($this->p.'Data sent:' . $result);
+	}
+
 }

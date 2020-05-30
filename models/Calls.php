@@ -40,7 +40,7 @@ class Calls extends \yii\db\ActiveRecord
 			[['created_at', 'updated_at'], 'safe'],
 			['key', 'string', 'max' => 48],
 			['key', 'unique'],
-			[['uuid'], 'string', 'max' => 16],];
+			[['uuid'], 'string', 'max' => 16]];
     }
 
     /**
