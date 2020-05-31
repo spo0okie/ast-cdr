@@ -130,9 +130,11 @@ class CallStates extends \yii\db\ActiveRecord
 	 * @return bool
 	 */
 	public static function sendData($state) {
-		if (empty(Yii::$app->params['remoteAPI'])) return false;
+		if (empty(Yii::$app->params['remoteAPI'])) {
+			error_log('CallState/sendData: no remote API');
+			return false;
+		}
 
-		//$datastr=$data['src'].' '.$data['state'].' '.$data['dst'].' rec: '.$data['monitor'];
 
 
 		//сюда складываем параметры для отправки в АПИ
@@ -143,13 +145,14 @@ class CallStates extends \yii\db\ActiveRecord
 			'src_phone'=>$src,      //заполняем исходящий номер
 			'call_id'=>$uuid,    //запоминаем имя файла как идентификатор вызова
 		];
+		$datastr=$src.' '.$state->state.' '.$state->name;
 
 		//разбираем имя файла на токены
 		$mon_tokens=explode('-',$uuid);
 
 		//игнорируем ошбки в имени файла
 		if (count($mon_tokens)<2) {
-			//msg($this->p.'Channel update ignored (Call record file incorrect):' . $datastr ,3);
+			error_log('CallState/sendData: Channel update ignored (Call record file incorrect):' . $datastr);
 			return false;
 		}
 
@@ -158,13 +161,13 @@ class CallStates extends \yii\db\ActiveRecord
 
 		//игнорируем исходящие вызовы
 		if ($mon_tokens[count($mon_tokens)-2] !== 'IN') {
-			//msg($this->p.'Channel update ignored (Outgoing call):' . $datastr ,3);
+			error_log('CallState/sendData: Channel update ignored (Outgoing call):' . $datastr);
 			return false;
 		};
 
 		//игнорируем вызовы с внутреннего
 		if (strlen($src)<5) {
-			//msg($this->p.'Channel update ignored (Too short CallerID):' . $datastr ,3);
+			error_log('CallState/sendData: Channel update ignored (Too short CallerID):' . $datastr);
 			return false;
 		}
 
@@ -188,13 +191,12 @@ class CallStates extends \yii\db\ActiveRecord
 
 		$event=[
 			'type'=>'call_event',
-
 			'params'=>$params
 		];
 
 		$data=json_encode($event,JSON_FORCE_OBJECT);
 
-		//msg($this->p.'Sending data:' . $data);
+		error_log('CallState/sendData: ' . $data);
 
 		$options = [
 			'http' => [
