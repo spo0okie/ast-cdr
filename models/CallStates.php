@@ -138,7 +138,7 @@ class CallStates extends \yii\db\ActiveRecord
 
 
 		//сюда складываем параметры для отправки в АПИ
-		$uuid=$state->call->uuid;
+		$uuid=$state->call->key;
 		$tokens=explode('-',$uuid);
 		$src=$tokens[3];
 		$params=[
@@ -147,20 +147,17 @@ class CallStates extends \yii\db\ActiveRecord
 		];
 		$datastr=$src.' '.$state->state.' '.$state->name;
 
-		//разбираем имя файла на токены
-		$mon_tokens=explode('-',$uuid);
-
 		//игнорируем ошбки в имени файла
-		if (count($mon_tokens)<2) {
+		if (count($tokens)<2) {
 			error_log('CallState/sendData: Channel update ignored (Call record file incorrect):' . $datastr);
 			return false;
 		}
 
 		//заполняем городской номер
-		$params['dst_phone']=$mon_tokens[count($mon_tokens)-1];
+		$params['dst_phone']=$tokens[count($tokens)-1];
 
 		//игнорируем исходящие вызовы
-		if ($mon_tokens[count($mon_tokens)-2] !== 'IN') {
+		if ($tokens[count($tokens)-2] !== 'IN') {
 			error_log('CallState/sendData: Channel update ignored (Outgoing call):' . $datastr);
 			return false;
 		};
