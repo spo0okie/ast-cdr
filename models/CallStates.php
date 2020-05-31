@@ -140,7 +140,7 @@ class CallStates extends \yii\db\ActiveRecord
 		//сюда складываем параметры для отправки в АПИ
 		$uuid=$state->call->key;
 		$tokens=explode('-',$uuid);
-		$src=$tokens[3];
+		$src=$tokens[2];
 		$params=[
 			'src_phone'=>$src,      //заполняем исходящий номер
 			'call_id'=>$uuid,    //запоминаем имя файла как идентификатор вызова
