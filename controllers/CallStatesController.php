@@ -50,9 +50,16 @@ class CallStatesController extends Controller
 	 */
 	public function actionShiftReport()
 	{
-		$date='2020-05-%';
+		$filter_model = new \app\models\ReportFilter();
+		$filter_model->date=date('Y-m');
+		$filter_model->workTimeBegin=8;
+		$filter_model->workTimeEnd=20;
+		$filter_model->chanFilter='SIP/';
+		$filter_model->load(\Yii::$app->request->get());
+
 		$queryDay=\app\models\CallStates::find()
 			->joinWith('event')
+			->joinWith('call')
 			->select([
 				'name',
 				'call_states.created_at',
@@ -62,9 +69,10 @@ class CallStatesController extends Controller
 				'SUM(1) as count'
 			])
 			->where(['state'=>'Up'])
-			->andWhere(['like','call_states.created_at',$date,false])
-			->andWhere(['like','chan_events.channel','SIP/ods%',false])
-			->andWhere(['like','call_states.name','10_',false])
+			->andWhere(['like','call_states.created_at',$filter_model->date.'%',false])
+			->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false])
+			->andWhere(['like','call_states.name',$filter_model->numInclude,false])
+			->andWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]])
 			->groupBy(['name','date'])
 			->orderBy([
 				'date'=>SORT_ASC,
@@ -74,8 +82,8 @@ class CallStatesController extends Controller
 		$queryNight=clone $queryDay;
 		$dataProviderDay = new \yii\data\SqlDataProvider([
 			'sql' => $queryDay
-				->andWhere(['>=','DATE_FORMAT(call_states.created_at,"%H")',8])
-				->andWhere(['<','DATE_FORMAT(call_states.created_at,"%H")',20])
+				->andWhere(['>=','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeBegin])
+				->andWhere(['<','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeEnd])
 				->createCommand()
 				->getRawSql(),
 			'pagination' => ['pageSize' => 1000,],
@@ -84,8 +92,8 @@ class CallStatesController extends Controller
 			'sql' => $queryNight
 				->andWhere([
 					'or',
-					['>=','DATE_FORMAT(call_states.created_at,"%H")',20],
-					['<','DATE_FORMAT(call_states.created_at,"%H")',8]
+					['>=','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeEnd],
+					['<','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeBegin]
 				])
 				->createCommand()
 				->getRawSql(),
@@ -93,6 +101,8 @@ class CallStatesController extends Controller
 		]);
 
 		return $this->render('shift-report', [
+			'filter' => $filter_model,
+			'filter_action'=>'/web/call-states/shift-report',
 			'dataProviderDay' => $dataProviderDay,
 			'dataProviderNight' => $dataProviderNight,
 		]);
