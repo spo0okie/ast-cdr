@@ -71,8 +71,8 @@ class CallStatesController extends Controller
 			->where(['state'=>'Up'])
 			->andWhere(['like','call_states.created_at',$filter_model->date.'%',false])
 			->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false])
-			->andWhere(['like','call_states.name',$filter_model->numInclude,false])
-			->andWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]])
+			->andFilterWhere(['like','call_states.name',$filter_model->numInclude,false])
+			->andFilterWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]])
 			->groupBy(['name','date'])
 			->orderBy([
 				'date'=>SORT_ASC,
