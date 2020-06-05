@@ -98,8 +98,17 @@ class Chans extends \yii\db\ActiveRecord
 	 * Нужно ли развернуть канал задом наперед
 	 * @return bool
 	 */
-    public function getIsReversed() {
-    	return $this->wasRinging xor $this->reversed;
+	public function getIsReversed() {
+		return $this->wasRinging xor $this->reversed;
+	}
+
+	/**
+	 * Иногда астер на поднятие трубки разворачивает $dst и $src
+	 * @return bool
+	 */
+	public function eventReversed($CallerID) {
+		if (!is_object($this->call)) return false;
+		return $this->call->source==$CallerID;
 	}
 
 	/**
@@ -107,7 +116,7 @@ class Chans extends \yii\db\ActiveRecord
 	 * @return null|string
 	 */
 	public function getSmartSrc() {
-		$src=$this->isReversed? $this->dst: $this->src;
+		$src=($this->isReversed xor $this->eventReversed($this->src))? $this->dst: $this->src;
 		if (strpos($src,'_')) {
 			$src=substr($src,strpos($src,'_')+1);
 		}
