@@ -13,11 +13,11 @@ use yii\base\Model;
 class ReportFilter extends Model
 {
 	public $date;
-	public $workTimeBegin;
-	public $workTimeEnd;
+	public $workTimeBegin=8;
+	public $workTimeEnd=17;
 	public $numExclude;
 	public $numInclude;
-	public $chanFilter;
+	public $chanFilter='SIP/';
 
 	/**
 	 * {@inheritdoc}
@@ -36,11 +36,19 @@ class ReportFilter extends Model
 	{
 		return [
 			'date' => 'Дата',
-			'workTimeBegin' => 'Начало рабочего дня',
-			'workTimeEnd' => 'Конец рабочего дня',
+			'workTimeBegin' => 'Начало периода',
+			'workTimeEnd' => 'Конец периода',
 			'numExclude' => 'Исключить номера',
 			'numInclude' => 'Включить номера',
 			'chanFilter' => 'Фильтр устройств',
 		];
+	}
+
+	public function formData(){
+		$request=[];
+		foreach ($this->toArray() as $field=>$value) {
+			$request["ReportFilter[$field]"]=$value;
+		};
+		return $request;
 	}
 }

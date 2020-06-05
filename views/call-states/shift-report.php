@@ -20,25 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<div class="col-md-6">
 		<h3>День</h3>
-		<?= GridView::widget([
-			'dataProvider' => $dataProviderDay,
-			'columns' => [
-				'date',
-				'name',
-				'count',
-			],
-		]); ?>
+		<?= $this->render('report-table',['dataProvider'=>$dataProviderDay]) ?>
 	</div>
 	<div class="col-md-6">
 		<h3>Ночь</h3>
-		<?= GridView::widget([
-			'dataProvider' => $dataProviderNight,
-			'columns' => [
-				'date',
-				'name',
-				'count',
-			],
-		]); ?>
+		<?= $this->render('report-table',['dataProvider'=>$dataProviderNight]) ?>
 	</div>
 
 

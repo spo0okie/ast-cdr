@@ -35,13 +35,26 @@ class CallsController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Calls::find(),
+		$filter_model = new \app\models\ReportFilter();
+		$filter_model->load(\Yii::$app->request->get());
+
+		$query=Calls::find()
+			->joinWith('states.event')
+			->andWhere(['like','calls.created_at',$filter_model->date.'%',false])
+			//->andWhere(['call_states.state'=>'Up'])
+			->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false])
+			->andFilterWhere(['like','call_states.name',$filter_model->numInclude,false]);
+		;
+		$query=\app\controllers\CallStatesController::searchTimePeriod($query,$filter_model);
+
+		$dataProvider = new ActiveDataProvider([
+            'query' => $query,
 			'pagination' => ['pageSize' => 100,],
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+			'filter' => $filter_model
         ]);
     }
 

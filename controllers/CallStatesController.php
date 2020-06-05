@@ -44,6 +44,51 @@ class CallStatesController extends Controller
         ]);
     }
 
+    /*
+     * Формирует поисковый запрос на основе стандартного фильтра
+     */
+    static public function searchQuery($filter_model){
+		$query=\app\models\CallStates::find()
+			->joinWith('event')
+			->joinWith('call')
+			->select([
+				'name',
+				'call_states.created_at',
+				'DATE_FORMAT(call_states.created_at,"%Y-%m-%d") as date',
+				'DATE_FORMAT(call_states.created_at,"%H") as hour',
+				'COUNT(call_states.id) as count'
+			])
+			->where(['state'=>'Up'])
+			->andWhere(['like','call_states.created_at',$filter_model->date.'%',false])
+			->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false])
+			->andFilterWhere(['like','call_states.name',$filter_model->numInclude,false]);
+		if (strlen(trim($filter_model->numExclude)))
+			$query->andFilterWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]]);
+		$query
+			->groupBy(['name','date'])
+			->orderBy([
+				'date'=>SORT_ASC,
+				'name'=>SORT_ASC,
+			]);
+		return $query;
+	}
+
+	/*
+	 * Ограничивает поисковый запрос временем в течении суток (рабочий день)
+	 * Внутри периода или снаружи
+	 */
+	static public function searchTimePeriod(\yii\db\ActiveQuery $query, \app\models\ReportFilter $filter_model,$inner=true) {
+		if ($inner)	return $query
+			->andWhere(['>=','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeBegin])
+			->andWhere(['<','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeEnd]);
+		else return $query
+			->andWhere([
+				'or',
+				['>=','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeEnd],
+				['<','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeBegin]
+			]);
+	}
+
 	/**
 	 * Lists all callStates models.
 	 * @return mixed
@@ -52,49 +97,27 @@ class CallStatesController extends Controller
 	{
 		$filter_model = new \app\models\ReportFilter();
 		$filter_model->date=date('Y-m');
-		$filter_model->workTimeBegin=8;
-		$filter_model->workTimeEnd=20;
-		$filter_model->chanFilter='SIP/';
 		$filter_model->load(\Yii::$app->request->get());
 
-		$queryDay=\app\models\CallStates::find()
-			->joinWith('event')
-			->joinWith('call')
-			->select([
-				'name',
-				'call_states.created_at',
-				'DATE_FORMAT(call_states.created_at,"%Y-%m-%d") as date',
-				//'DATE_FORMAT(call_states.created_at,"%d") as day',
-				'DATE_FORMAT(call_states.created_at,"%H") as hour',
-				'SUM(1) as count'
-			])
-			->where(['state'=>'Up'])
-			->andWhere(['like','call_states.created_at',$filter_model->date.'%',false])
-			->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false])
-			->andFilterWhere(['like','call_states.name',$filter_model->numInclude,false])
-			->andFilterWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]])
-			->groupBy(['name','date'])
-			->orderBy([
-				'date'=>SORT_ASC,
-				'name'=>SORT_ASC,
-			]);
+		$queryDay=static::searchTimePeriod(
+			static::searchQuery($filter_model),
+			$filter_model
+		);
 
-		$queryNight=clone $queryDay;
+		$queryNight=static::searchTimePeriod(
+			static::searchQuery($filter_model),
+			$filter_model,
+			false
+		);
+
 		$dataProviderDay = new \yii\data\SqlDataProvider([
 			'sql' => $queryDay
-				->andWhere(['>=','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeBegin])
-				->andWhere(['<','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeEnd])
 				->createCommand()
 				->getRawSql(),
 			'pagination' => ['pageSize' => 1000,],
 		]);
 		$dataProviderNight = new \yii\data\SqlDataProvider([
 			'sql' => $queryNight
-				->andWhere([
-					'or',
-					['>=','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeEnd],
-					['<','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeBegin]
-				])
 				->createCommand()
 				->getRawSql(),
 			'pagination' => ['pageSize' => 1000,],

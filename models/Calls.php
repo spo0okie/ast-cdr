@@ -84,6 +84,15 @@ class Calls extends \yii\db\ActiveRecord
 	{
 		return explode('-',$this->key)[4];
 	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getStates()
+	{
+		return $this->hasMany(CallStates::class, ['call_id'=>'id']);
+	}
+
 	/**
 	 * Предоставляет ID по ключу или UUID (находит или создает новый вызов)
 	 * @param string $key
