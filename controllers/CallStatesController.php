@@ -58,36 +58,24 @@ class CallStatesController extends Controller
 				'DATE_FORMAT(call_states.created_at,"%H") as hour',
 				'COUNT(call_states.id) as count'
 			])
-			->where(['state'=>'Up'])
 			->andWhere(['like','call_states.created_at',$filter_model->date.'%',false])
-			->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false])
-			->andFilterWhere(['like','call_states.name',$filter_model->numInclude,false]);
+			->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false]);
+
+		$query=\app\models\ReportFilter::filterTimePeriod($query,	$filter_model);
+
+		$query=\app\models\ReportFilter::filterStates($query,	$filter_model);
+
 		if (strlen(trim($filter_model->numExclude)))
 			$query->andFilterWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]]);
-		$query
+
+		return $query
 			->groupBy(['name','date'])
 			->orderBy([
 				'date'=>SORT_ASC,
 				'name'=>SORT_ASC,
 			]);
-		return $query;
-	}
 
-	/*
-	 * Ограничивает поисковый запрос временем в течении суток (рабочий день)
-	 * Внутри периода или снаружи
-	 */
-	static public function searchTimePeriod(\yii\db\ActiveQuery $query, \app\models\ReportFilter $filter_model,$inner=true) {
-		if ($inner)	return $query
-			->andWhere(['>=','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeBegin])
-			->andWhere(['<','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeEnd]);
-		else return $query
-			->andWhere([
-				'or',
-				['>=','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeEnd],
-				['<','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeBegin]
-			]);
-	}
+    }
 
 	/**
 	 * Lists all callStates models.
@@ -95,36 +83,31 @@ class CallStatesController extends Controller
 	 */
 	public function actionShiftReport()
 	{
-		$filter_model = new \app\models\ReportFilter();
-		$filter_model->date=date('Y-m');
-		$filter_model->load(\Yii::$app->request->get());
+		$filter_day = new \app\models\ReportFilter();
+		$filter_day->date=date('Y-m');
+		$filter_day->load(\Yii::$app->request->get());
+		$filter_day->innerInterval=1;
 
-		$queryDay=static::searchTimePeriod(
-			static::searchQuery($filter_model),
-			$filter_model
-		);
-
-		$queryNight=static::searchTimePeriod(
-			static::searchQuery($filter_model),
-			$filter_model,
-			false
-		);
+		$filter_night = new \app\models\ReportFilter();
+		$filter_night->date=date('Y-m');
+		$filter_night->load(\Yii::$app->request->get());
+		$filter_night->innerInterval=0;
 
 		$dataProviderDay = new \yii\data\SqlDataProvider([
-			'sql' => $queryDay
+			'sql' => static::searchQuery($filter_day)
 				->createCommand()
 				->getRawSql(),
 			'pagination' => ['pageSize' => 1000,],
 		]);
 		$dataProviderNight = new \yii\data\SqlDataProvider([
-			'sql' => $queryNight
+			'sql' => static::searchQuery($filter_night)
 				->createCommand()
 				->getRawSql(),
 			'pagination' => ['pageSize' => 1000,],
 		]);
 
 		return $this->render('shift-report', [
-			'filter' => $filter_model,
+			'filter' => $filter_day,
 			'filter_action'=>'/web/call-states/shift-report',
 			'dataProviderDay' => $dataProviderDay,
 			'dataProviderNight' => $dataProviderNight,

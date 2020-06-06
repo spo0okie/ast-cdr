@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $filter \app\models\ReportFilter */
 
 
-$this->title = 'Calls';
+$this->title = 'Вызовы';
 $this->params['breadcrumbs'][] = $this->title;
 
 $renderer=$this;

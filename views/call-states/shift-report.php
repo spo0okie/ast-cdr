@@ -11,6 +11,13 @@ use yii\grid\GridView;
 
 $this->title = 'Отчет по сменам';
 $this->params['breadcrumbs'][] = $this->title;
+
+$filter_model_in = clone $filter;
+$filter_model_in->innerInterval=true;
+
+$filter_model_out = clone $filter;
+$filter_model_out->innerInterval=false;
+
 ?>
 <div class="call-states-shift-report">
 
@@ -20,11 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<div class="col-md-6">
 		<h3>День</h3>
-		<?= $this->render('report-table',['dataProvider'=>$dataProviderDay]) ?>
+		<?= $this->render('report-table',['dataProvider'=>$dataProviderDay,'filter'=>$filter_model_in]) ?>
 	</div>
 	<div class="col-md-6">
 		<h3>Ночь</h3>
-		<?= $this->render('report-table',['dataProvider'=>$dataProviderNight]) ?>
+		<?= $this->render('report-table',['dataProvider'=>$dataProviderNight,'filter'=>$filter_model_out]) ?>
 	</div>
 
 

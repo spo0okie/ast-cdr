@@ -36,15 +36,13 @@ $columns+=$numbers;
 $columns[]=[
 	'attribute' => 'date',
 	'format' => 'raw',
-	'value' => function ($data) {
+	'value' => function ($data) use ($filter) {
 		if ($data['sum']>0) {
-			$filter_model = new \app\models\ReportFilter();
-			$filter_model->load(\Yii::$app->request->get());
-			$filter_model->date=$data['date'];
+			$filter->date=$data['date'];
 
 			return \yii\helpers\Html::a(
 				$data['sum'],
-				['/calls/index']+$filter_model->formData()
+				['/calls/index']+$filter->formData()
 			);
 		}
 		return null;

@@ -24,19 +24,28 @@ use yii\widgets\ActiveForm;
 		<div class="col-md-3">
 			<?= $form->field($model, 'date')->textInput() ?>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-2">
 			<?= $form->field($model, 'workTimeBegin')->textInput(['maxlength' => true]) ?>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-2">
 			<?= $form->field($model, 'workTimeEnd')->textInput(['maxlength' => true]) ?>
+		</div>
+		<div class="col-md-2">
+			<?= $form->field($model, 'innerInterval')->radioList([
+				1	=>'Внутри интервала',
+				0	=>'Снаружи интервала',
+			]) ?>
 		</div>
 		<div class="col-md-3">
 			<?= $form->field($model, 'chanFilter')->textInput(['maxlength' => true]) ?>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-6">
-			<?= $form->field($model, 'numInclude')->textarea() ?>
+		<div class="col-md-3">
+			<?= $form->field($model, 'statsInclude')->textarea() ?>
+		</div>
+		<div class="col-md-3">
+			<?= $form->field($model, 'statsName')->textarea() ?>
 		</div>
 		<div class="col-md-6">
 			<?= $form->field($model, 'numExclude')->textarea() ?>

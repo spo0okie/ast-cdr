@@ -39,22 +39,23 @@ class CallsController extends Controller
 		$filter_model->load(\Yii::$app->request->get());
 
 		$query=Calls::find()
-			->joinWith('states.event')	->where(['call_states.state'=>'Up'])
+			->joinWith('states.event')
 			->andWhere(['like','calls.created_at',$filter_model->date.'%',false])
 			->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false])
-			->andFilterWhere(['like','call_states.name',$filter_model->numInclude,false])
 			->groupBy(['calls.id']);
 
 		$totalQuery=Calls::find()
 			->select('COUNT(DISTINCT(calls.id))')
-			->joinWith('states.event')	->where(['call_states.state'=>'Up'])
+			->joinWith('states.event')
 			->andWhere(['like','calls.created_at',$filter_model->date.'%',false])
-			->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false])
-			->andFilterWhere(['like','call_states.name',$filter_model->numInclude,false]);
+			->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false]);
 
 
-		$query=\app\controllers\CallStatesController::searchTimePeriod($query,$filter_model);
-		$totalQuery=\app\controllers\CallStatesController::searchTimePeriod($totalQuery,$filter_model);
+		$query=\app\models\ReportFilter::filterTimePeriod($query,$filter_model);
+		$totalQuery=\app\models\ReportFilter::filterTimePeriod($totalQuery,$filter_model);
+
+		$query=\app\models\ReportFilter::filterStates($query,$filter_model);
+		$totalQuery=\app\models\ReportFilter::filterStates($totalQuery,$filter_model);
 
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,

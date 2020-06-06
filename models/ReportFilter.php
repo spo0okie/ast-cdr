@@ -15,8 +15,10 @@ class ReportFilter extends Model
 	public $date;
 	public $workTimeBegin=8;
 	public $workTimeEnd=17;
+	public $innerInterval;
 	public $numExclude;
-	public $numInclude;
+	public $statsInclude;
+	public $statsName;
 	public $chanFilter='SIP/';
 
 	/**
@@ -26,9 +28,10 @@ class ReportFilter extends Model
 	{
 		return [
 			[['date'], 'string', 'max' => 10],
+			[['innerInterval'], 'boolean'],
 			[['workTimeBegin','workTimeEnd'], 'integer', 'min'=>0,'max' => 24],
 			[['chanFilter'], 'string', 'max' => 255],
-			[['numExclude','numInclude'], 'safe'],
+			[['numExclude','statsInclude','statsName'], 'safe'],
 		];
 	}
 
@@ -38,8 +41,10 @@ class ReportFilter extends Model
 			'date' => 'Дата',
 			'workTimeBegin' => 'Начало периода',
 			'workTimeEnd' => 'Конец периода',
+			'innerInterval' => 'Выбрать из интервала',
 			'numExclude' => 'Исключить номера',
-			'numInclude' => 'Включить номера',
+			'statsInclude' => 'Номера со статусами',
+			'statsName' => 'Статус',
 			'chanFilter' => 'Фильтр устройств',
 		];
 	}
@@ -50,5 +55,38 @@ class ReportFilter extends Model
 			$request["ReportFilter[$field]"]=$value;
 		};
 		return $request;
+	}
+
+	/*
+     * Ограничивает поисковый запрос временем в течении суток (рабочий день)
+     * Внутри периода или снаружи
+     */
+	static public function filterTimePeriod(\yii\db\ActiveQuery $query, \app\models\ReportFilter $filter_model) {
+
+		if (empty($filter_model->workTimeBegin)||empty($filter_model->workTimeEnd)) return $query;
+
+		if ($filter_model->innerInterval)	return $query
+			->andWhere(['>=','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeBegin])
+			->andWhere(['<','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeEnd]);
+		else return $query
+			->andWhere([
+				'or',
+				['>=','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeEnd],
+				['<','DATE_FORMAT(call_states.created_at,"%H")',(int)$filter_model->workTimeBegin]
+			]);
+	}
+
+	/*
+ * Ограничивает поисковый запрос временем в течении суток (рабочий день)
+ * Внутри периода или снаружи
+ */
+	static public function filterStates(\yii\db\ActiveQuery $query, \app\models\ReportFilter $filter_model)
+	{
+
+		if (empty($filter_model->statsInclude) || empty($filter_model->statsName)) return $query;
+
+		return $query
+			->andWhere(['call_states.state' => $filter_model->statsName])
+			->andFilterWhere(['like', 'call_states.name', $filter_model->statsInclude, false]);
 	}
 }
