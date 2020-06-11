@@ -223,10 +223,10 @@ class Chans extends \yii\db\ActiveRecord
 	 * @param $value
 	 * @return bool
 	 */
-	public function setMonitor($value) {
+	public function setMonitor($value,$org=null) {
 		if (!$this->getVar('monitor')) {
 			$this->setVar('monitor',$value);
-			$this->call_id=\app\models\Calls::provideCall($value);
+			$this->call_id=\app\models\Calls::provideCall($value,$org);
 			$this->updated=true;
 			return true;
 		}
@@ -268,8 +268,9 @@ class Chans extends \yii\db\ActiveRecord
 		$oldDst  	=$this->dst;
 		$oldRinging	=$this->wasRinging;
 
-		if (($monitor=$evt->getMonitor()))
-			$this->setMonitor($monitor);
+		if (($monitor=$evt->getMonitor())) {
+			$this->setMonitor($monitor,$evt->getOrg());
+		}
 
 		if ($evt->getPar('Application')=='Monitor') $this->handleAppMonitor($evt);
 		if ($evt->getPar('Event')=='Rename') {
