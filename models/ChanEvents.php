@@ -181,6 +181,18 @@ class ChanEvents extends \yii\db\ActiveRecord
 	}
 
 	/**
+	 * возвращает имя файла записи звонка
+	 * @return null
+	 */
+	public function getOrg() {
+		//если втолкано в ast-ami
+		if (is_array($vars=$this->getPar('variables'))) {
+			if (isset($vars['org'])) return $vars['org'];
+		}
+		return NULL;
+	}
+
+	/**
 	 * возвращает признак что звонок притворяется входящим, будучи на самом деле
 	 * исходящим сделанным не с телефона а чере call файл. тогда сначала звонит аппарат
 	 * вызывающего, и отображается CallerID вызываемого. Если это не обработать специально

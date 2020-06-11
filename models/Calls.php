@@ -98,7 +98,7 @@ class Calls extends \yii\db\ActiveRecord
 	 * @param string $key
 	 * @return integer|null
 	 */
-	static public function provideCall($key=null) {
+	static public function provideCall($key=null,$org=null) {
 		$call=\app\models\Calls::findOne(['key'=>$key]);
 
 		//если нашли то и ОК
@@ -109,6 +109,9 @@ class Calls extends \yii\db\ActiveRecord
 
 		//прикручиваем ключ
 		if (!empty($key)) $call->key=$key;
+		if (!empty($org) && mb_strlen($org)>3) {
+			$call->org_id=mb_substr($org,3);
+		}
 		//if (!empty($uuid)) $call->uuid=$uuid;
 		if ($call->save()) return $call->getPrimaryKey();
 		return null;
