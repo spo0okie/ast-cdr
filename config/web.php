@@ -63,8 +63,8 @@ $config = [
 				'POST json/chan-events/push'=>'json/chan-events/create',
 				'json/chans/test'		=> 'json/chan-events/test',
 			],
-        ],
-    ],
+		],
+	],
 	'modules' => [
 		'rest'		=> ['class' => 'app\modules\rest\Rest'],	//нативный REST API Yii2
 		'json'		=> ['class' => 'app\modules\json\Json'],	//API по стандарту IS74 Open VPBX v.1

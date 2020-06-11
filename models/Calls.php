@@ -102,7 +102,13 @@ class Calls extends \yii\db\ActiveRecord
 		$call=\app\models\Calls::findOne(['key'=>$key]);
 
 		//если нашли то и ОК
-		if (!is_null($call)) return $call->id;
+		if (!is_null($call)) {
+			if (empty($call->org_id) && !empty($org) && mb_strlen($org)>3) {
+				$call->org_id=mb_substr($org,3);
+				$call->save();
+			}
+			return $call->id;
+		}
 
 		//иначе создаем новый
 		$call=new \app\models\Calls();
