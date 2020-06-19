@@ -221,6 +221,7 @@ class Chans extends \yii\db\ActiveRecord
 	/**
 	 * Если мы еще не знаем имя файла записи, то запоминаем его
 	 * @param $value
+	 * @param null|string $org
 	 * @return bool
 	 */
 	public function setMonitor($value,$org=null) {

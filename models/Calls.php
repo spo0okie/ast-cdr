@@ -96,6 +96,7 @@ class Calls extends \yii\db\ActiveRecord
 	/**
 	 * Предоставляет ID по ключу или UUID (находит или создает новый вызов)
 	 * @param string $key
+	 * @param null|string $org
 	 * @return integer|null
 	 */
 	static public function provideCall($key=null,$org=null) {

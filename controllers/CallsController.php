@@ -57,6 +57,11 @@ class CallsController extends Controller
 		$query=\app\models\ReportFilter::filterStates($query,$filter_model);
 		$totalQuery=\app\models\ReportFilter::filterStates($totalQuery,$filter_model);
 
+		if (strlen(trim($filter_model->numExclude))) {
+			$query->andFilterWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]]);
+			$totalQuery->andFilterWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]]);
+		}
+
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
 			'pagination' => ['pageSize' => 100,],
