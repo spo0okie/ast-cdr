@@ -73,7 +73,7 @@ class ChanEvents extends \yii\db\ActiveRecord
 			[['channel_id', 'used','uid'], 'integer'],
 			[['data'], 'string'],
             [['created_at'], 'safe'],
-            [['uuid'], 'string', 'max' => 16],
+            [['uuid'], 'string', 'max' => 32],
             [['channel'], 'string', 'max' => 128],
 		];
     }

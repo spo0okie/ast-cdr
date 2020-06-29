@@ -90,7 +90,10 @@ class ChanEventsController extends Controller
 		//$event->channel='2';
 		//$event->type=\app\models\Events::$event_types[$params->event_name];
 
-		if (!$event->save())	return static::resultError(10,'Cant save chan-event');
+		if (!$event->save())	{
+			return $event->getErrors();
+			//return static::resultError(10,'Cant save chan-event');
+		}
 
 		return static::resultError(0,'Event saved');
 	}
