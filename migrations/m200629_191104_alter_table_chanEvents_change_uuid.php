@@ -12,7 +12,7 @@ class m200629_191104_alter_table_chanEvents_change_uuid extends Migration
      */
     public function safeUp()
     {
-		$this->alterColumn('chanEvents','uuid',$this->string(32)->defaultValue(null)	);
+		$this->alterColumn('chan_events','uuid',$this->string(32)->defaultValue(null)	);
     }
 
     /**
@@ -20,7 +20,7 @@ class m200629_191104_alter_table_chanEvents_change_uuid extends Migration
      */
     public function safeDown()
     {
-		$this->alterColumn('chanEvents','uuid',$this->string(16)->defaultValue(null)	);
+		$this->alterColumn('chan_events','uuid',$this->string(16)->defaultValue(null)	);
     }
 
     /*
