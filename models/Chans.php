@@ -128,7 +128,7 @@ class Chans extends \yii\db\ActiveRecord
 	 * @return null|string
 	 */
 	public function getSmartDst() {
-		$dst=$this->isReversed? $this->src: $this->dst;
+		$dst=($this->isReversed xor $this->eventReversed($this->src))? $this->src: $this->dst;
 		if (strpos($dst,'_')) {
 			$dst=substr($dst,strpos($dst,'_')+1);
 		}
