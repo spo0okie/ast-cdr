@@ -20,7 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'key',
-            'org_id',
+			'org_id',
+			'source',
+			'trunk',
             'comment:ntext',
         ],
     ]) ?>
