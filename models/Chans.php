@@ -116,7 +116,7 @@ class Chans extends \yii\db\ActiveRecord
 	 * @return null|string
 	 */
 	public function getSmartSrc() {
-		$src=($this->isReversed xor $this->eventReversed($this->src))? $this->dst: $this->src;
+		$src=($this->isReversed xor $this->eventReversed($this->dst))? $this->dst: $this->src;
 		if (strpos($src,'_')) {
 			$src=substr($src,strpos($src,'_')+1);
 		}
