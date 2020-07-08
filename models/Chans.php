@@ -106,7 +106,7 @@ class Chans extends \yii\db\ActiveRecord
 	 * Иногда астер на поднятие трубки разворачивает $dst и $src
 	 * @return bool
 	 */
-	public function eventReversed($CallerID) {
+	public function callSrc($CallerID) {
 		if (!is_object($this->call)) return false;
 		return $this->call->source==$CallerID;
 	}
@@ -116,7 +116,10 @@ class Chans extends \yii\db\ActiveRecord
 	 * @return null|string
 	 */
 	public function getSmartSrc() {
-		$src=($this->isReversed xor $this->eventReversed($this->dst))? $this->dst: $this->src;
+
+		if ($this->callSrc($this->dst)) $src=$this->dst; //сначала ищем совпадения с источником вызова
+		elseif ($this->callSrc($this->src)) $src=$this->src;
+		else $src= $this->isReversed ? $this->dst: $this->src; //потом как обычно
 		if (strpos($src,'_')) {
 			$src=substr($src,strpos($src,'_')+1);
 		}
@@ -128,7 +131,9 @@ class Chans extends \yii\db\ActiveRecord
 	 * @return null|string
 	 */
 	public function getSmartDst() {
-		$dst=($this->isReversed xor $this->eventReversed($this->dst))? $this->src: $this->dst;
+		if ($this->callSrc($this->dst)) $dst=$this->src; //сначала ищем совпадения с источником вызова
+		elseif ($this->callSrc($this->src)) $dst=$this->dst; //и выбираем противоположную сторону
+		else $dst= $this->isReversed ? $this->src: $this->dst;
 		if (strpos($dst,'_')) {
 			$dst=substr($dst,strpos($dst,'_')+1);
 		}
@@ -287,9 +292,6 @@ class Chans extends \yii\db\ActiveRecord
 			$this->state=$newstate;//устанавливаем статус
 			if ($this->state==='Ringing') $this->wasRinging=true;
 		}
-
-		//пугает меня этот вызов не зафлудить бы АМИ этимим запросами
-		//if (is_null($this->monitor)) $this->monitor=$this->getMonitorVar();
 
 		//проверяем что это не исходящий звонок начинающийся со звонка на аппарат звонящего
 		//с демонстрацией callerID абонента куда будет совершен вызов, если снять трубку

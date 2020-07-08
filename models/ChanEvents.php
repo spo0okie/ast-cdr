@@ -260,10 +260,19 @@ class ChanEvents extends \yii\db\ActiveRecord
 
 	public function afterSave($insert, $changedAttributes)
 	{
-		$used=$this->used;
 		parent::afterSave($insert, $changedAttributes);
+
+		//если это собитие уже использовалось для обновления канала, значит все данные из него уже взяты
+		//(события не меняются со временем)
+		if ($this->used) return;
+
+		//иначе передаем данные в канал
 		$this->chan->upd($this);
-		if (!$used && $this->used) $this->save(false);
+
+		//если пригодились - отмечаем это
+		if ($this->used) $this->save(false);
+
+		//если канал обновился - сохраняем его
 		if ($this->chan->updated) $this->chan->save(false);
 
 	}
