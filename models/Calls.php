@@ -139,7 +139,7 @@ class Calls extends \yii\db\ActiveRecord
 	public function getAge() {
 		$age=time() - strtotime($this->created_at);
 		if ($age < 0) {
-			return time() . ' - ' . strtotime($this->created_at). ' // '.date('r',strtotime($this->created_at));
+			return time() . ' - ' . strtotime($this->created_at). ' // '.date('r',time()).' - '.date('r',strtotime($this->created_at));
 		}
 		$days=floor($age/24/60/60);
 		$age-=$days*24*60*60;
