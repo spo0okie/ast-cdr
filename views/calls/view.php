@@ -23,6 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			'org_id',
 			'source',
 			'trunk',
+            'created_at',
+            'age',
             'comment:ntext',
         ],
     ]) ?>

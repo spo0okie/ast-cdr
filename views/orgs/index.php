@@ -8,6 +8,7 @@ use yii\grid\GridView;
 
 $this->title = 'Orgs';
 $this->params['breadcrumbs'][] = $this->title;
+$renderer=$this;
 ?>
 <div class="orgs-index">
 
@@ -27,6 +28,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'code',
             'name',
 			'lastIncoming.age',
+			[
+				'attribute'	=>'lastIncoming.age',
+				'format'	=>'raw',
+				'value'		=>function($data) use ($renderer) {
+					return (is_object($data->lastIncoming))?
+						\yii\helpers\Html::a($data->lastIncoming->age,['/calls/view','id'=>$data->lastIncoming->id])
+						:null;
+				}
+			],
 			'lastOutgoing.age',
             'comment:ntext',
 
