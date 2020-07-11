@@ -94,6 +94,14 @@ class Calls extends \yii\db\ActiveRecord
 	}
 
 	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getOrg()
+	{
+		return $this->hasOne(Orgs::class, ['code'=>'org_id']);
+	}
+
+	/**
 	 * Предоставляет ID по ключу или UUID (находит или создает новый вызов)
 	 * @param string $key
 	 * @param null|string $org

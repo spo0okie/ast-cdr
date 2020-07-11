@@ -31,7 +31,13 @@ $renderer=$this;
 					return $renderer->render('item',['model'=>$data]);
 				}
             ],
-            'org_id',
+			[
+				'attribute'	=>'Org',
+				'format'	=>'raw',
+				'value'		=>function($data) use ($renderer) {
+					return $renderer->render('/orgs/item',['model'=>$data->org,'num'=>$data->org_id]);
+				}
+			],
             //'comment:ntext',
             //['class' => 'yii\grid\ActionColumn'],
         ],
