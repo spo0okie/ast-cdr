@@ -27,18 +27,21 @@ $renderer=$this;
             //'id',
             'code',
             'name',
-			'lastIncoming.age',
 			[
 				'attribute'	=>'lastIncoming.age',
 				'format'	=>'raw',
 				'value'		=>function($data) use ($renderer) {
-					return (is_object($data->lastIncoming))?
-						\yii\helpers\Html::a($data->lastIncoming->age,['/calls/view','id'=>$data->lastIncoming->id])
-						:null;
+					return (is_object($data->lastIncoming))?\yii\helpers\Html::a($data->lastIncoming->age,['/calls/view','id'=>$data->lastIncoming->id]):null;
 				}
 			],
-			'lastOutgoing.age',
-            'comment:ntext',
+			[
+				'attribute'	=>'lastOutgoing.age',
+				'format'	=>'raw',
+				'value'		=>function($data) use ($renderer) {
+					return (is_object($data->lastOutgoing))?\yii\helpers\Html::a($data->lastOutgoing->age,['/calls/view','id'=>$data->lastOutgoing->id]):null;
+				}
+			],
+            //'comment:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
