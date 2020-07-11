@@ -37,7 +37,8 @@ class OrgsController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Orgs::find(),
-        ]);
+			'pagination' => ['pageSize' => 100,],
+		]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
