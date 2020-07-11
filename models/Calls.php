@@ -138,10 +138,10 @@ class Calls extends \yii\db\ActiveRecord
 
 	public function getAge() {
 		$dt = new \DateTime(null, new \DateTimeZone(Yii::$app->params['timeZone'])); //first argument "must" be a string
-		$age=$dt->getTimestamp() - strtotime($this->created_at);
-		if ($age < 0) {
-			return $dt->getTimestamp() . ' - ' . strtotime($this->created_at). ' // '.date('r',$dt->getTimestamp()).' - '.date('r',strtotime($this->created_at)).' // '.$dt->format('d.m.Y, H:i:s');
-		}
+		$age=$dt->getTimestamp() + $dt->getOffset() - strtotime($this->created_at);
+		/*if ($age < 0) {
+			return $dt->getTimestamp()+ $dt->getOffset() . ' - ' . strtotime($this->created_at). ' // '.date('r',$dt->getTimestamp()+ $dt->getOffset()).' - '.date('r',strtotime($this->created_at)).' // '.$dt->format('d.m.Y, H:i:s');
+		}*/
 		$days=floor($age/24/60/60);
 		$age-=$days*24*60*60;
 		$hours=floor($age/60/60);
@@ -153,6 +153,6 @@ class Calls extends \yii\db\ActiveRecord
 		if ($hours) $str[]=$hours.'ч';
 		if ($minutes) $str[]=$minutes.'мин';
 		$str[]=$age.'сек';
-		return implode(' ',$str) . ' //' . $dt->getTimestamp() . ' - ' . strtotime($this->created_at);;
+		return implode(' ',$str);// . ' //' . ($dt->getTimestamp()+ $dt->getOffset()) . ' - ' . strtotime($this->created_at);;
 	}
 }
