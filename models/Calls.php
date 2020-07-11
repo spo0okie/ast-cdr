@@ -135,4 +135,20 @@ class Calls extends \yii\db\ActiveRecord
 	public function setState($num,$state,$event_id) {
 		\app\models\CallStates::setState($this->id,$event_id,$num,$state);
 	}
+
+	public function getAge() {
+		$age=time()-strtotime($this->created_at);
+		$days=floor($age/24/60/60);
+		$age-=$days*24*60*60;
+		$hours=floor($age/60/60);
+		$age-=$hours*60*60;
+		$minutes=floor($age/60);
+		$age-=$minutes*60;
+		$str=[];
+		if ($days) $str[]=$days.'дн';
+		if ($hours) $str[]=$hours.'ч';
+		if ($minutes) $str[]=$minutes.'мин';
+		$str[]=$age.'сек';
+		return implode(' ',$str);
+	}
 }

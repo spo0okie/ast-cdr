@@ -46,4 +46,21 @@ class Orgs extends \yii\db\ActiveRecord
             'comment' => 'Comment',
         ];
     }
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getLastIncoming()
+	{
+		return $this->hasOne(Calls::class, ['org_id'=>'code'])->where(['like','key','-IN-'])->orderBy(['id'=>SORT_DESC]);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getLastOutgoing()
+	{
+		return $this->hasOne(Calls::class, ['org_id'=>'code'])->where(['like','key','-OUT-'])->orderBy(['id'=>SORT_DESC]);
+	}
+
 }
