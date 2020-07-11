@@ -152,6 +152,6 @@ class Calls extends \yii\db\ActiveRecord
 		if ($hours) $str[]=$hours.'ч';
 		if ($minutes) $str[]=$minutes.'мин';
 		$str[]=$age.'сек';
-		return implode(' ',$str);
+		return implode(' ',$str) . ' //' . time() . ' - ' . strtotime($this->created_at);;
 	}
 }
