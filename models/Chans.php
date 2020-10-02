@@ -19,6 +19,7 @@ use Yii;
  * @property string|null $dst
  * @property string|null $smartSrc
  * @property string|null $smartDst
+ * @property string|null $smartState
  * @property bool $isReversed
  * @property string|null $tech
  * @property string|null $bareName
@@ -142,7 +143,7 @@ class Chans extends \yii\db\ActiveRecord
 			$dst=substr($dst,5);
 		}
 		//обнаруживаем вызовы через local/05 XX YY ZZZ
-		if (strlen($dst)>='9' && strlen($dst)<='11' && substr($dst,0,1)=='05') {
+		if (strlen($dst)>='9' && strlen($dst)<='11' && substr($dst,0,2)=='05') {
 			$dst=substr($dst,6);
 		}
 		return $dst;
@@ -263,6 +264,13 @@ class Chans extends \yii\db\ActiveRecord
 	}
 
 
+
+
+    /**
+     * ИМЕННО ОТСЮДА НАДО РАЗВЯЗЫВАТЬ ВЕСЬ УЗЕЛОК СОБЫТИЙ.
+     * это место где канал обновляется новым событием и обвновившись может обновить весь вызов
+     */
+
 	/**
 	 * @param \app\models\ChanEvents $evt
 	 * @return bool
@@ -302,6 +310,8 @@ class Chans extends \yii\db\ActiveRecord
 		if (($this->src !== $oldSrc) ||	($this->dst !== $oldDst) ||	($this->state) !== $oldState || ($this->wasRinging) !== $oldRinging) {
 			$this->updated=true;
 			$evt->used=1;
+            $evt->parsed_pars['variables']['smartDst']=$this->smartDst;
+            $evt->parsed_pars['variables']['smartState']=$this->smartState;
 		}
 
 		//возвращаем флаг необходимости отправки данных (канал укомплектован и инфо обновилась)

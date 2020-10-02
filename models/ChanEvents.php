@@ -35,7 +35,7 @@ class ChanEvents extends \yii\db\ActiveRecord
 		'Hangup'=>'Hangup',			//Окончание разговора
 	];
 
-	private $parsed_pars=null; //распарсенные параметры
+	public $parsed_pars=null; //распарсенные параметры
 
     /**
      * {@inheritdoc}
@@ -248,12 +248,13 @@ class ChanEvents extends \yii\db\ActiveRecord
 	}
 
 	public function beforeValidate() {
-
 		if (parent::beforeValidate()) {
-			//if (empty($this->uid))		$this->uid=$this->getPar('uid');
-			if (empty($this->uuid))		$this->uuid=$this->getPar('Uniqueid');
-			if (empty($this->channel))	$this->channel=$this->getPar('Channel');
-			return true;
+		    if (strlen($this->data)) {
+                //if (empty($this->uid))		$this->uid=$this->getPar('uid');
+                if (empty($this->uuid))		$this->uuid=$this->getPar('Uniqueid');
+                if (empty($this->channel))	$this->channel=$this->getPar('Channel');
+            }
+            return true;
 		}
 		return false;
 	}
@@ -270,7 +271,10 @@ class ChanEvents extends \yii\db\ActiveRecord
 		$this->chan->upd($this);
 
 		//если пригодились - отмечаем это
-		if ($this->used) $this->save(false);
+		if ($this->used) {
+            $this->data=json_encode($this->parsed_pars);
+            $this->save(false);
+        }
 
 		//если канал обновился - сохраняем его
 		if ($this->chan->updated) $this->chan->save(false);
