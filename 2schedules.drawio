@@ -1,0 +1,91 @@
+<mxfile host="app.diagrams.net" modified="2020-10-15T18:52:20.527Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36" etag="tCUW7CL7N_r4OKExUmi9" version="13.8.0" type="github">
+  <diagram name="Page-1" id="edf60f1a-56cd-e834-aa8a-f176f3a09ee4">
+    <mxGraphModel dx="1422" dy="772" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="60e70716793133e9-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;labelBackgroundColor=none;startSize=5;endArrow=classicThin;endFill=1;endSize=5;jettySize=auto;orthogonalLoop=1;strokeWidth=1;fontFamily=Verdana;fontSize=8" parent="1" source="60e70716793133e9-4" target="60e70716793133e9-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="60e70716793133e9-4" value="Сейчас рабочее время?" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="1" vertex="1">
+          <mxGeometry x="30" y="17" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-4" value="Да&lt;br&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="60e70716793133e9-5" target="najJFRpZWhWd66tsJCAm-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-6" value="Нет" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="60e70716793133e9-5" target="najJFRpZWhWd66tsJCAm-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="60e70716793133e9-5" value="В индивидуальном&lt;br&gt;&amp;nbsp;расписании есть сегодняшняя&lt;br&gt;календарная дата?" style="rhombus;whiteSpace=wrap;html=1;rounded=0;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="1" vertex="1">
+          <mxGeometry x="10" y="67" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-3" value="Принимаем решение согласно этого расписания" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;fontFamily=Verdana;fontSize=8;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="77" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-8" value="Да" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="najJFRpZWhWd66tsJCAm-5" target="najJFRpZWhWd66tsJCAm-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-10" value="Нет" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="najJFRpZWhWd66tsJCAm-5" target="najJFRpZWhWd66tsJCAm-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-5" value="В общем (базовом)&lt;br&gt;&amp;nbsp;расписании есть сегодняшняя&lt;br&gt;календарная дата?" style="rhombus;whiteSpace=wrap;html=1;rounded=0;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" vertex="1" parent="1">
+          <mxGeometry x="10" y="187" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-7" value="&lt;span&gt;Принимаем решение согласно этого расписания&lt;/span&gt;" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;fontFamily=Verdana;fontSize=8;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="197" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-12" value="Да" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="najJFRpZWhWd66tsJCAm-9" target="najJFRpZWhWd66tsJCAm-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-14" value="Нет" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="najJFRpZWhWd66tsJCAm-9" target="najJFRpZWhWd66tsJCAm-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-9" value="В индивидуальном&lt;br&gt;&amp;nbsp;расписании есть сегодняшний&lt;br&gt;день недели?" style="rhombus;whiteSpace=wrap;html=1;rounded=0;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" vertex="1" parent="1">
+          <mxGeometry x="10" y="304" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-11" value="Принимаем решение согласно индивидуального&amp;nbsp;&lt;br&gt;расписания на этот день недели" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;fontFamily=Verdana;fontSize=8;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="314" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-16" value="Да" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="najJFRpZWhWd66tsJCAm-13" target="najJFRpZWhWd66tsJCAm-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-18" value="Нет" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="najJFRpZWhWd66tsJCAm-13" target="najJFRpZWhWd66tsJCAm-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-13" value="В общем (базовом)&lt;br&gt;&amp;nbsp;расписании есть сегодняшний&lt;br&gt;день недели?" style="rhombus;whiteSpace=wrap;html=1;rounded=0;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" vertex="1" parent="1">
+          <mxGeometry x="10" y="424" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-15" value="&lt;span&gt;Принимаем решение согласно общего расписания на этот день недели&lt;/span&gt;" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;fontFamily=Verdana;fontSize=8;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="434" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-20" value="Да" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="najJFRpZWhWd66tsJCAm-17" target="najJFRpZWhWd66tsJCAm-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-22" value="Нет" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="najJFRpZWhWd66tsJCAm-17" target="najJFRpZWhWd66tsJCAm-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-17" value="В индивидуальном&lt;br&gt;&amp;nbsp;расписании есть рабочее&amp;nbsp;&lt;br&gt;время по умолчанию?&lt;br&gt;(на каждый день)" style="rhombus;whiteSpace=wrap;html=1;rounded=0;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" vertex="1" parent="1">
+          <mxGeometry x="10" y="557" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-19" value="Ориентируемся на индивидуальное расписание на любой/каждый день" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;fontFamily=Verdana;fontSize=8;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="567" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-24" value="Да" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="najJFRpZWhWd66tsJCAm-21" target="najJFRpZWhWd66tsJCAm-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="najJFRpZWhWd66tsJCAm-21" target="najJFRpZWhWd66tsJCAm-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-21" value="В общем (базовом)&lt;br&gt;&amp;nbsp;расписании есть рабочее&amp;nbsp;&lt;br&gt;время по умолчанию?&lt;br&gt;(на каждый день)" style="rhombus;whiteSpace=wrap;html=1;rounded=0;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" vertex="1" parent="1">
+          <mxGeometry x="10" y="687" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-23" value="&lt;span&gt;Ориентируемся на общее расписание на любой/каждый день&lt;/span&gt;" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;fontFamily=Verdana;fontSize=8;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="697" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="najJFRpZWhWd66tsJCAm-25" value="Нерабочее время&lt;br&gt;(на самом деле расписания криво заполнены)" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;fontFamily=Verdana;fontSize=8;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="800" width="120" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
