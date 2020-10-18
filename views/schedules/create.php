@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Orgs */
+/* @var $model app\models\Schedules */
 
-$this->title = 'Добавление организации';
-$this->params['breadcrumbs'][] = ['label' => 'Организации', 'url' => ['index']];
+$this->title = 'Новое расписание';
+$this->params['breadcrumbs'][] = ['label' => 'Расписания', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="orgs-create">
+<div class="schedules-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

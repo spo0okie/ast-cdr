@@ -119,3 +119,15 @@ a.desc:after {
 /***************************************/
 span.data_unused {color: gray;}
 span.data_used   {color: blue;}
+
+span.schedule-date-selector {
+    color:gray;
+    /*text-decoration:underline;*/
+    cursor:pointer;
+}
+
+span.schedule-date-selector:hover {
+    color:#333333;
+    text-decoration:underline;
+    cursor:pointer;
+}

@@ -38,12 +38,13 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-			['label' => 'chanEvents', 'url' => ['/chan-events']],
-			['label' => 'chans', 'url' => ['/chans']],
-            ['label' => 'events', 'url' => ['/events']],
-			['label' => 'calls', 'url' => ['/calls']],
-			['label' => 'states', 'url' => ['/call-states']],
-            ['label' => 'orgs', 'url' => ['/orgs']],
+			['label' => 'Кан. события', 'url' => ['/chan-events']],
+			['label' => 'Каналы', 'url' => ['/chans']],
+            ['label' => 'События', 'url' => ['/events']],
+			['label' => 'Вызовы', 'url' => ['/calls']],
+			['label' => 'Сост.', 'url' => ['/call-states']],
+            ['label' => 'Орг-ии', 'url' => ['/orgs']],
+            ['label' => 'Расписания', 'url' => ['/schedules']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

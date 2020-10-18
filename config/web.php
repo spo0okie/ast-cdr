@@ -12,6 +12,9 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'formatter' => [
+            'locale' => 'ru-RU',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '6}d#FmS6+R|4ttknAAq|`}Z$?7Nf2BZ}Q\'eF$LYOG6"[N(+2"nc4`~CD$6/!jz)',
