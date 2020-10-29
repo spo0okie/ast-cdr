@@ -13,11 +13,14 @@ use Yii;
  * @property string|null $source
  * @property string|null $trunk
  * @property int|null $org_id
+ * @property int|false $length
  * @property string|null $comment
  * @property string|null $created_at
  * @property string|null $updated_at
  *
- * @property \app\models\Events $events
+ * @property \app\models\Events[] $events
+ * @property \app\models\CallStates $firstState
+ * @property \app\models\CallStates $lastState
  */
 class Calls extends \yii\db\ActiveRecord
 {
@@ -56,18 +59,40 @@ class Calls extends \yii\db\ActiveRecord
         ];
     }
 
-	/**
-	 * @return array|\yii\db\ActiveRecord[]
-	 */
-	public function getEvents()
-	{
-		return \app\models\Events::find()
-			->where(['call_id'=>$this->id])
-			->orderBy('id')
-			->All();
-	}
+    /**
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getEvents()
+    {
+        return \app\models\Events::find()
+            ->where(['call_id'=>$this->id])
+            ->orderBy('id')
+            ->All();
+    }
 
-	/**
+    /**
+     * @return array|\yii\db\ActiveRecord
+     */
+    public function getFirstState()
+    {
+        return \app\models\CallStates::find()
+            ->where(['call_id'=>$this->id])
+            ->orderBy('id')
+            ->One();
+    }
+
+    /**
+     * @return array|\yii\db\ActiveRecord
+     */
+    public function getLastState()
+    {
+        return \app\models\CallStates::find()
+            ->where(['call_id'=>$this->id])
+            ->orderBy(['id'=>SORT_DESC])
+            ->One();
+    }
+
+    /**
 	 * Источник вызова
 	 * @return string
 	 */
@@ -155,4 +180,13 @@ class Calls extends \yii\db\ActiveRecord
 		$str[]=$age.'сек';
 		return implode(' ',$str);// . ' //' . ($dt->getTimestamp()+ $dt->getOffset()) . ' - ' . strtotime($this->created_at);;
 	}
+
+	public function getLength() {
+	    //if (!is_object($first=$this->firstEvent)) return 'first';
+        //if (!is_object($last=$this->lastEvent)) return 'last';
+        $first=$this->firstState;
+        $last=$this->lastState;
+        //return $first;
+        return strtotime($last->created_at)-strtotime($first->created_at);
+    }
 }
