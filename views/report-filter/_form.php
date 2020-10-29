@@ -43,9 +43,10 @@ use yii\widgets\ActiveForm;
 	<div class="row">
 		<div class="col-md-3">
 			<?= $form->field($model, 'statsInclude')->textarea() ?>
+            <?= $form->field($model, 'statsName')->textInput() ?>
 		</div>
 		<div class="col-md-3">
-			<?= $form->field($model, 'statsName')->textarea() ?>
+            <?= $form->field($model, 'numInclude')->textarea() ?>
 		</div>
 		<div class="col-md-6">
 			<?= $form->field($model, 'numExclude')->textarea() ?>

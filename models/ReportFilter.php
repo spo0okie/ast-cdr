@@ -16,7 +16,8 @@ class ReportFilter extends Model
 	public $workTimeBegin=8;
 	public $workTimeEnd=17;
 	public $innerInterval;
-	public $numExclude;
+    public $numExclude;
+    public $numInclude;
 	public $statsInclude;
 	public $statsName;
 	public $chanFilter='SIP/';
@@ -31,7 +32,7 @@ class ReportFilter extends Model
 			[['innerInterval'], 'boolean'],
 			[['workTimeBegin','workTimeEnd'], 'integer', 'min'=>0,'max' => 24],
 			[['chanFilter'], 'string', 'max' => 255],
-			[['numExclude','statsInclude','statsName'], 'safe'],
+			[['numExclude','numInclude','statsInclude','statsName'], 'safe'],
 		];
 	}
 
@@ -42,7 +43,8 @@ class ReportFilter extends Model
 			'workTimeBegin' => 'Начало периода',
 			'workTimeEnd' => 'Конец периода',
 			'innerInterval' => 'Выбрать из интервала',
-			'numExclude' => 'Исключить номера',
+            'numInclude' => 'Исключить номера',
+            'numExclude' => 'Исключить номера',
 			'statsInclude' => 'Номера со статусами',
 			'statsName' => 'Статус',
 			'chanFilter' => 'Фильтр устройств',
