@@ -286,6 +286,15 @@ class Chans extends \yii\db\ActiveRecord
 			$this->setMonitor($monitor,$evt->getOrg());
 		}
 
+        if (
+            is_object($this->call) &&               //если у нас есть звонок
+            !empty($evt->getOrg()) &&               //есть организация в событии
+            empty($this->call->org_id) &&           //нет организации в звонке
+            $this->call->setOrg($evt->getOrg())     //и удалось воткнуть организацию в звонок
+        ) {
+            $this->call->save();                    //сохраним звонок
+        }
+
 		if ($evt->getPar('Application')=='Monitor') $this->handleAppMonitor($evt);
 		if ($evt->getPar('Event')=='Rename') {
 			$this->name=$evt->getPar('Newname');

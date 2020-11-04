@@ -118,15 +118,38 @@ class Calls extends \yii\db\ActiveRecord
 		return $this->hasMany(CallStates::class, ['call_id'=>'id']);
 	}
 
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getOrg()
-	{
-		return $this->hasOne(Orgs::class, ['code'=>'org_id']);
-	}
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrg()
+    {
+        return $this->hasOne(Orgs::class, ['code'=>'org_id']);
+    }
 
-	/**
+    /**
+     * Устанавливает организацию в звонке
+     * @param null|string $org
+     * @return bool
+     */
+    public function setOrg($org=null)
+    {
+        //если в звонке организации нет а в переданном параметре есть
+        if (empty($this->org_id) && !empty($org)) {
+            //если передали цифру - сохраняем цифру
+            if (is_numeric($org)) {
+                $this->org_id = $org;
+                return true;
+            //если строку длиннее 3х символов (orgXX)
+            } elseif (mb_strlen($org)>3) {
+                $this->org_id=mb_substr($org,3);
+                return true;
+            }
+        }
+        //иначе ничего не меняем
+        return false;
+    }
+
+    /**
 	 * Предоставляет ID по ключу или UUID (находит или создает новый вызов)
 	 * @param string $key
 	 * @param null|string $org
@@ -137,10 +160,7 @@ class Calls extends \yii\db\ActiveRecord
 
 		//если нашли то и ОК
 		if (!is_null($call)) {
-			if (empty($call->org_id) && !empty($org) && mb_strlen($org)>3) {
-				$call->org_id=mb_substr($org,3);
-				$call->save();
-			}
+			if ($call->setOrg($org)) $call->save();
 			return $call->id;
 		}
 

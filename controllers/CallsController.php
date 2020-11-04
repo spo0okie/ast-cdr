@@ -40,17 +40,26 @@ class CallsController extends Controller
 
 		$query=Calls::find()
 			->joinWith('states.event');
-		if (strlen($filter_model->date))        $query->andWhere(['like','calls.created_at',$filter_model->date.'%',false]);
-        if (strlen($filter_model->chanFilter))	$query->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false]);
-        if (strlen($filter_model->numInclude))  $query->andWhere(['like','calls.key',$filter_model->numInclude]);
-		$query->groupBy(['calls.id']);
 
-		$totalQuery=Calls::find()
-			->select('COUNT(DISTINCT(calls.id))')
-			->joinWith('states.event');
-		if (strlen($filter_model->date))        $totalQuery->andWhere(['like','calls.created_at',$filter_model->date.'%',false]);
-        if (strlen($filter_model->chanFilter))	$totalQuery->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false]);
-        if (strlen($filter_model->numInclude))  $totalQuery->andWhere(['like','calls.key',$filter_model->numInclude]);
+        $totalQuery=Calls::find()
+            ->select('COUNT(DISTINCT(calls.id))')
+            ->joinWith('states.event');
+
+		if (strlen($filter_model->date)) {
+            $query->andWhere(['like','calls.created_at',$filter_model->date.'%',false]);
+            $totalQuery->andWhere(['like','calls.created_at',$filter_model->date.'%',false]);
+        }
+
+        if (strlen($filter_model->chanFilter))	{
+            $query->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false]);
+            $totalQuery->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false]);
+        }
+
+        if (strlen($filter_model->numInclude))  {
+            $query->andWhere(['like','calls.key',$filter_model->numInclude]);
+            $totalQuery->andWhere(['like','calls.key',$filter_model->numInclude]);
+        }
+		$query->groupBy(['calls.id']);
 
 
 
