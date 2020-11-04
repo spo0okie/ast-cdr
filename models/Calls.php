@@ -19,6 +19,7 @@ use Yii;
  * @property string|null $updated_at
  *
  * @property \app\models\Events[] $events
+ * @property \app\models\ChanEvents[] $chanEvents
  * @property \app\models\CallStates $firstState
  * @property \app\models\CallStates $lastState
  */
@@ -68,6 +69,16 @@ class Calls extends \yii\db\ActiveRecord
             ->where(['call_id'=>$this->id])
             ->orderBy('id')
             ->All();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getChanEvents()
+    {
+        return $this->hasMany(ChanEvents::className(), ['channel_id' => 'id'])
+            ->viaTable('{{%chans}}', ['call_id' => 'id']);
     }
 
     /**
@@ -139,13 +150,32 @@ class Calls extends \yii\db\ActiveRecord
             if (is_numeric($org)) {
                 $this->org_id = $org;
                 return true;
-            //если строку длиннее 3х символов (orgXX)
+                //если строку длиннее 3х символов (orgXX)
             } elseif (mb_strlen($org)>3) {
                 $this->org_id=mb_substr($org,3);
                 return true;
             }
         }
         //иначе ничего не меняем
+        return false;
+    }
+
+    /**
+     * Пытается поправить организацию опираясь на привязанные каналы
+     * @return bool
+     */
+    public function fixOrg()
+    {
+        //если в звонке организации нет
+        if (empty($this->org_id)) {
+            if (is_array($events=$this->chanEvents)) {
+                foreach ($events as $event) {
+                    if (!empty($org=$event->getOrg())) {
+                        if ($this->setOrg($org)) return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 

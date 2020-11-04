@@ -94,6 +94,9 @@ class CallsController extends Controller
      */
     public function actionView($id)
     {
+        $call=$this->findModel($id);
+        if (empty($call->org_id) && $call->fixOrg()) $call->save();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
 			'evtDataProvider' => new ActiveDataProvider([
