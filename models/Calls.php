@@ -77,8 +77,11 @@ class Calls extends \yii\db\ActiveRecord
      */
     public function getChanEvents()
     {
-        return $this->hasMany(ChanEvents::className(), ['channel_id' => 'id'])
-            ->viaTable('{{%chans}}', ['call_id' => 'id']);
+        //return $this->hasMany(ChanEvents::className(), ['channel_id' => 'id'])->viaTable('{{%chans}}', ['call_id' => 'id']);
+
+        return \app\models\ChanEvents::find()
+            ->joinWith('chan')
+            ->where(['chans.call_id' => $this->id]);
     }
 
     /**
