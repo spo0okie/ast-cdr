@@ -43,7 +43,7 @@ class ReportFilter extends Model
 			'workTimeBegin' => 'Начало периода',
 			'workTimeEnd' => 'Конец периода',
 			'innerInterval' => 'Выбрать из интервала',
-            'numInclude' => 'Исключить номера',
+            'numInclude' => 'Включить номера',
             'numExclude' => 'Исключить номера',
 			'statsInclude' => 'Номера со статусами',
 			'statsName' => 'Статус',

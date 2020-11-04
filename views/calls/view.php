@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="calls-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= $this->render('item',['model'=>$model]) ?></h1>
 
     <?= DetailView::widget([
         'model' => $model,
