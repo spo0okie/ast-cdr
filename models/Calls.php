@@ -171,10 +171,12 @@ class Calls extends \yii\db\ActiveRecord
     public function fixOrg()
     {
         //если в звонке организации нет
+
         if (empty($this->org_id)) {
             if (is_array($events=$this->chanEvents)) {
                 foreach ($events as $event) {
                     if (!empty($org=$event->getOrg())) {
+                        error_log("trying add $org");
                         if ($this->setOrg($org)) return true;
                     }
                 }
