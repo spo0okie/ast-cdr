@@ -14,6 +14,6 @@ if (!empty(Yii::$app->params['remoteAPI'])) {
     echo '&nbsp;';
     echo \yii\helpers\Html::a(
         '<span class="small glyphicon glyphicon-floppy-disk"></span>',
-        Yii::$app->params['remoteAPI'].'/records/get/org'.$model->org_id.'/'.$model->key
+        Yii::$app->params['remoteAPI'].'/record/get/org'.$model->org_id.'/'.$model->key
     );
 }
