@@ -81,7 +81,8 @@ class Calls extends \yii\db\ActiveRecord
 
         return \app\models\ChanEvents::find()
             ->joinWith('chan')
-            ->where(['chans.call_id' => $this->id]);
+            ->where(['chans.call_id' => $this->id])
+            ->All();
     }
 
     /**
