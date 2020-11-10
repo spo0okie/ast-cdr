@@ -193,7 +193,7 @@ class CallStates extends \yii\db\ActiveRecord
 
 		$data=json_encode($event,JSON_FORCE_OBJECT);
 
-		error_log('CallState/sendData: ' . $data);
+		error_log('CallState/sendData: ' . $data .' -> '.Yii::$app->params['remoteAPI'].'/events/push');
 
 		$options = [
 			'http' => [
@@ -206,6 +206,7 @@ class CallStates extends \yii\db\ActiveRecord
 		$context  = stream_context_create($options);
 		$result = file_get_contents(Yii::$app->params['remoteAPI'].'/events/push', false, $context);
 		//msg($this->p.'Data sent:' . $result);
+        return true;
 	}
 
 }
