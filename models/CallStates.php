@@ -143,7 +143,8 @@ class CallStates extends \yii\db\ActiveRecord
 		$src=$tokens[2];
 		$params=[
 			'src_phone'=>$src,      //заполняем исходящий номер
-			'call_id'=>$uuid,    //запоминаем имя файла как идентификатор вызова
+            'call_id'=>$uuid,    //запоминаем имя файла как идентификатор вызова
+            'evt_id'=>$state->event->uid,    //запоминаем имя файла как идентификатор вызова
 		];
 		$datastr=$src.' '.$state->state.' '.$state->name;
 

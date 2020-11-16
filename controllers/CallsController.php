@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Calls;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -41,43 +42,48 @@ class CallsController extends Controller
 		$query=Calls::find()
 			->joinWith('states.event');
 
-        $totalQuery=Calls::find()
-            ->select('COUNT(DISTINCT(calls.id))')
-            ->joinWith('states.event');
+        //$totalQuery=Calls::find()
+        //    ->select('COUNT(DISTINCT(calls.id))')
+        //    ->joinWith('states.event');
 
 		if (strlen($filter_model->date)) {
             $query->andWhere(['like','calls.created_at',$filter_model->date.'%',false]);
-            $totalQuery->andWhere(['like','calls.created_at',$filter_model->date.'%',false]);
+            //$totalQuery->andWhere(['like','calls.created_at',$filter_model->date.'%',false]);
         }
 
         if (strlen($filter_model->chanFilter))	{
             $query->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false]);
-            $totalQuery->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false]);
+            //$totalQuery->andWhere(['like','chan_events.channel',$filter_model->chanFilter.'%',false]);
         }
 
         if (strlen($filter_model->numInclude))  {
             $query->andWhere(['like','calls.key',$filter_model->numInclude]);
-            $totalQuery->andWhere(['like','calls.key',$filter_model->numInclude]);
+            //$totalQuery->andWhere(['like','calls.key',$filter_model->numInclude]);
         }
 		$query->groupBy(['calls.id']);
 
 
-
 		$query=\app\models\ReportFilter::filterTimePeriod($query,$filter_model);
-		$totalQuery=\app\models\ReportFilter::filterTimePeriod($totalQuery,$filter_model);
+		//$totalQuery=\app\models\ReportFilter::filterTimePeriod($totalQuery,$filter_model);
 
 		$query=\app\models\ReportFilter::filterStates($query,$filter_model);
-		$totalQuery=\app\models\ReportFilter::filterStates($totalQuery,$filter_model);
+		//$totalQuery=\app\models\ReportFilter::filterStates($totalQuery,$filter_model);
 
 		if (strlen(trim($filter_model->numExclude))) {
 			$query->andFilterWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]]);
-			$totalQuery->andFilterWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]]);
+			//$totalQuery->andFilterWhere(['not',['OR like','calls.key',explode(' ',$filter_model->numExclude)]]);
 		}
 
-		$dataProvider = new ActiveDataProvider([
+        $totalQuery=clone $query;
+        $count=$totalQuery->count();
+        error_log($totalQuery->sql);
+        //$count=(int)$totalQuery->scalar();
+        error_log($count);
+
+        $dataProvider = new ActiveDataProvider([
             'query' => $query,
 			'pagination' => ['pageSize' => 100,],
-			'totalCount' => $totalQuery->scalar()
+			'totalCount' => $count
         ]);
 
         return $this->render('index', [
