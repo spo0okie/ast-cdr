@@ -250,7 +250,7 @@ class ChanEvents extends \yii\db\ActiveRecord
 	public function beforeValidate() {
 		if (parent::beforeValidate()) {
 		    if (strlen($this->data)) {
-                //if (empty($this->uid))		$this->uid=$this->getPar('uid');
+                if (empty($this->uid))		$this->uid=$this->getPar('uid');
                 if (empty($this->uuid))		$this->uuid=$this->getPar('Uniqueid');
                 if (empty($this->channel))	$this->channel=$this->getPar('Channel');
             }
