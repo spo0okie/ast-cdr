@@ -10,6 +10,7 @@ use yii\grid\GridView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Расписания', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$schedule_id=$model->id;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="schedules-view">
@@ -123,7 +124,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 ];},
             ],
 
-            ['class' => 'yii\grid\ActionColumn','template'=>'{update}{delete}'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template'=>'{update}{delete}',
+                'urlCreator'=>function ($action, $model, $key, $index, $column) {
+                    switch ($action) {
+                        case 'update':
+                            return \yii\helpers\Url::to(['/schedules-days/update','id'=>$key]);
+                        case 'delete':
+                            return \yii\helpers\Url::to(['/schedules-days/delete','id'=>$key]);
+                    };
+
+                }
+            ],
         ],
     ]); ?>
 
