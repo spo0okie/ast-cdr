@@ -21,7 +21,7 @@ class OrgsController extends \yii\rest\ActiveController
     }
 
     public function actionWorkTime($id) {
-        if (is_null($org=Orgs::findOne($id))) throw new \yii\web\NotFoundHttpException("Organization '$id' not found");
+        if (is_null($org=Orgs::findOne(['code'=>$id]))) throw new \yii\web\NotFoundHttpException("Organization '$id' not found");
         if (is_null($schedule=$org->getDateSchedule(date('Y-m-d',time())))) return '*';
         return $schedule->schedule;
     }
