@@ -13,14 +13,14 @@ use yii\base\Model;
 class ReportFilter extends Model
 {
 	public $date;
-	public $workTimeBegin=8;
-	public $workTimeEnd=17;
+	public $workTimeBegin;
+	public $workTimeEnd;
 	public $innerInterval;
     public $numExclude;
     public $numInclude;
 	public $statsInclude;
 	public $statsName;
-	public $chanFilter='SIP/';
+	public $chanFilter;
 
 	/**
 	 * {@inheritdoc}
